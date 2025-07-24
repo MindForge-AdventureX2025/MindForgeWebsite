@@ -10,3 +10,5 @@ export interface ShowingChat {
   time: number;
   id: string;
 }
+
+export interface ApiChatHistoryItem {}

@@ -61,7 +61,7 @@
 import { useBreakpoints } from "@vueuse/core";
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
-import type { ChatHistory } from "../types/chatHistory";
+import type { ChatHistory } from "../types/chatHistory.d";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 
@@ -96,6 +96,8 @@ const { data, refresh, status } = useFetch<[]>("/api/chats/history", { method: "
 console.log(data.value, status.value);
 
 const chatHistory: ChatHistory = {};
+
+data.value?.forEach(item => {});
 </script>
 
 <style></style>
