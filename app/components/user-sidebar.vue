@@ -47,15 +47,7 @@
             </TabsList>
           </div>
           <TabsContent value="diary"> Make changes to your account here. </TabsContent>
-          <TabsContent value="chat">
-            <SidebarGroup>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem> </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </TabsContent>
+          <TabsContent value="chat"> </TabsContent>
         </Tabs>
       </SidebarContent>
       <SidebarFooter>
@@ -76,6 +68,11 @@ import type { ChatHistory } from "../types/chatHistory.d";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 const tabs = ref<"diary" | "chat">("diary");
+
+const { data, refresh, status } = useFetch<[]>("/api/chats/history", { method: "get" });
+console.log(data.value, status.value);
+
+const chatHistory: ChatHistory = {};
 
 async function post() {
   try {
@@ -103,13 +100,6 @@ function changeOpen() {
 function changeOpenMobile() {
   setOpenMobile(!openMobile.value);
 }
-
-const { data, refresh, status } = useFetch<[]>("/api/chats/history", { method: "get" });
-console.log(data.value, status.value);
-
-const chatHistory: ChatHistory = {};
-
-data.value?.forEach(item => {});
 </script>
 
 <style></style>
