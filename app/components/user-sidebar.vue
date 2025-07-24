@@ -40,38 +40,7 @@
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild class="flex items-center">
-                      <NuxtLink>
-                        <Icon name="arcticons:human-benchmark" class="text-xl" />
-                        <span v-if="open">R**n Z*u</span>
-                      </NuxtLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild class="flex items-center">
-                      <NuxtLink>
-                        <Icon name="arcticons:human-benchmark" class="text-xl" />
-                        <span v-if="open">R**n Z*u</span>
-                      </NuxtLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild class="flex items-center">
-                      <NuxtLink>
-                        <Icon name="arcticons:human-benchmark" class="text-xl" />
-                        <span v-if="open">R**n Z*u</span>
-                      </NuxtLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild class="flex items-center">
-                      <NuxtLink>
-                        <Icon name="arcticons:human-benchmark" class="text-xl" />
-                        <span v-if="open">R**n Z*u</span>
-                      </NuxtLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  <SidebarMenuItem> </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
