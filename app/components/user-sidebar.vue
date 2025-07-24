@@ -68,14 +68,18 @@ import type { ApiChatHistoryItem, ChatHistory, ShowingChat } from "../types/chat
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 const tabs = ref<"diary" | "chat">("diary");
-const chatHistory = reactive<ChatHistory>({});
+const chatHistory = reactive<ChatHistory>({
+  today: [],
+  yesterday: [],
+  thisMonth: [],
+  other: [],
+});
 
 const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/", {
   method: "get",
 });
 
 if (status.value === "success") {
-  console.log(data.value);
   const transfer = (originalData: ApiChatHistoryItem): ShowingChat => {
     return {
       id: originalData._id,
@@ -87,16 +91,16 @@ if (status.value === "success") {
   data.value?.forEach(item => {
     if (new Date(item.updatedAt).getDate() === new Date().getDate()) {
       // 如果在同一天
-      chatHistory.today?.push(transfer(item));
+      chatHistory.today.push(transfer(item));
     } else if (new Date(item.updatedAt).getDate() === new Date().getDate() - 1) {
       // 如果是昨天
-      chatHistory.yesterday?.push(transfer(item));
+      chatHistory.yesterday.push(transfer(item));
     } else if (new Date(item.updatedAt).getMonth() === new Date().getMonth()) {
       // 如果是更早的
-      chatHistory.thisMonth?.push(transfer(item));
+      chatHistory.thisMonth.push(transfer(item));
     } else {
       // 如果是其他时间
-      chatHistory.other?.push(transfer(item));
+      chatHistory.other.push(transfer(item));
     }
   });
 

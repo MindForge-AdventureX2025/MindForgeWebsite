@@ -1,8 +1,8 @@
 export interface ChatHistory {
-  today?: ShowingChat[];
-  yesterday?: ShowingChat[];
-  thisMonth?: ShowingChat[];
-  other?: ShowingChat[];
+  today: ShowingChat[];
+  yesterday: ShowingChat[];
+  thisMonth: ShowingChat[];
+  other: ShowingChat[];
 }
 
 export interface ShowingChat {
