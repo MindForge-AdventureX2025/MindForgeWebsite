@@ -23,7 +23,7 @@
 
       <SidebarContent>
         <Tabs default-value="diary" v-if="(!isMobile && open) || isMobile">
-          <div class="w-full px-2">
+          <div class="px-2 w-full">
             <TabsList class="w-full">
               <TabsTrigger value="diary">
                 <Icon name="ri:account-box-line" class="text-xl" />
@@ -35,45 +35,48 @@
               </TabsTrigger>
             </TabsList>
           </div>
+          <TabsContent value="diary"> Make changes to your account here. </TabsContent>
+          <TabsContent value="chats">
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild class="flex items-center">
+                      <NuxtLink>
+                        <Icon name="arcticons:human-benchmark" class="text-xl" />
+                        <span v-if="open">R**n Z*u</span>
+                      </NuxtLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild class="flex items-center">
+                      <NuxtLink>
+                        <Icon name="arcticons:human-benchmark" class="text-xl" />
+                        <span v-if="open">R**n Z*u</span>
+                      </NuxtLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild class="flex items-center">
+                      <NuxtLink>
+                        <Icon name="arcticons:human-benchmark" class="text-xl" />
+                        <span v-if="open">R**n Z*u</span>
+                      </NuxtLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild class="flex items-center">
+                      <NuxtLink>
+                        <Icon name="arcticons:human-benchmark" class="text-xl" />
+                        <span v-if="open">R**n Z*u</span>
+                      </NuxtLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </TabsContent>
         </Tabs>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
-                    <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
-                    <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
-                    <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
-                    <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenuButton @click="post" class="flex items-center cursor-pointer">
