@@ -1,8 +1,24 @@
 <template>
   <ClientOnly>
     <Sidebar collapsible="icon">
-      <SidebarHeader class="flex justify-between flex-row p-4">
-        Head <SidebarTrigger class="cursor-pointer" />
+      <SidebarHeader
+        :class="
+          'flex flex-row items-center ' + (open ? 'p-4 justify-between' : 'py-4 justify-center')
+        "
+      >
+        <span v-if="open">Head</span>
+        <Button variant="outline" size="icon" class="!w-8 !h-8 sm:block hidden">
+          <Icon v-if="open" name="ri:menu-fold-line" class="text-xl" @click="changeOpen" />
+          <Icon v-else name="ri:menu-fold-2-line" class="text-xl" @click="changeOpen" />
+        </Button>
+        <Button variant="outline" size="icon" class="!w-8 !h-8 block sm:hidden">
+          <Icon
+            v-if="openMobile"
+            name="ri:menu-fold-line"
+            class="text-xl"
+            @click="changeOpenMobile"
+          />
+        </Button>
       </SidebarHeader>
 
       <SidebarContent>
@@ -17,7 +33,7 @@
                 <SidebarMenuButton asChild class="flex items-center">
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="sidebarOpen">R**n Z*u</span>
+                    <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -25,7 +41,7 @@
                 <SidebarMenuButton asChild class="flex items-center">
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="sidebarOpen">R**n Z*u</span>
+                    <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -33,7 +49,7 @@
                 <SidebarMenuButton asChild class="flex items-center">
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="sidebarOpen">R**n Z*u</span>
+                    <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -41,7 +57,7 @@
                 <SidebarMenuButton asChild class="flex items-center">
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
-                    <span v-if="sidebarOpen">R**n Z*u</span>
+                    <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -52,7 +68,7 @@
       <SidebarFooter>
         <SidebarMenuButton @click="post" class="flex items-center cursor-pointer">
           <Icon name="material-symbols:add" class="text-xl" />
-          <span v-if="sidebarOpen">New Diary</span>
+          <span v-if="open">New Diary</span>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
@@ -63,25 +79,31 @@
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
 
-const sidebarOpen = useSidebar().open;
-
-watch(sidebarOpen, newValue => {
-  console.log("Sidebar open state changed:", newValue);
-});
+const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 
 async function post() {
   // 写一个方法 用于 post https://mindforgeserver.onrender.com/api/journals 这个api
   // 发送数据到服务器 使用nuxt数据获取
   try {
-    // const data = await $fetch("https://mindforgeserver.onrender.com/api/journals", {
-    //   method: "post",
-    //   ignoreResponseError: true,
-    // });
-    const data = await $fetch("/api/journals", { method: "post" });
+    const data = await $fetch("/api/journals", {
+      method: "post",
+      body: {
+        title: "dfagaqegalbduqo",
+        content: "p1ufva2fdva",
+      },
+    });
     console.log("Data fetched:", data);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+}
+
+function changeOpen() {
+  setOpen(!open.value);
+}
+
+function changeOpenMobile() {
+  setOpenMobile(!openMobile.value);
 }
 </script>
 

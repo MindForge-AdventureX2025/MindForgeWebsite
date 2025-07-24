@@ -2,6 +2,9 @@
   <SidebarProvider>
     <UserSidebar />
     <slot />
+    <ClientOnly>
+      <MobileSidebarController />
+    </ClientOnly>
   </SidebarProvider>
 </template>
 
