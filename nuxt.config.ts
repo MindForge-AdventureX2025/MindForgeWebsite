@@ -20,4 +20,9 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "shadcn-nuxt",
   ],
+  shadcn: {
+    // prefix: "Shadcn",
+    prefix: "",
+    componentDir: "./components/ui",
+  },
 });
