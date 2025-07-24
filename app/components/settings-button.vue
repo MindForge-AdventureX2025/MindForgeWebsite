@@ -1,20 +1,20 @@
 <template>
   <ClientOnly>
-    <UiDropdownMenu>
-      <UiDropdownMenuTrigger>
-        <UiButton variant="ghost" size="icon">
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Button variant="ghost" size="icon">
           <Icon name="material-symbols:settings" class="text-xl" />
-        </UiButton>
-      </UiDropdownMenuTrigger>
-      <UiDropdownMenuContent class="w-40">
-        <UiDropdownMenuGroup>
-          <UiDropdownMenuLabel>Dark Mode</UiDropdownMenuLabel>
-          <UiDropdownMenuItem @click="colorMode.preference = 'system'">System</UiDropdownMenuItem>
-          <UiDropdownMenuItem @click="colorMode.preference = 'light'">Light</UiDropdownMenuItem>
-          <UiDropdownMenuItem @click="colorMode.preference = 'dark'">Dark</UiDropdownMenuItem>
-        </UiDropdownMenuGroup>
-      </UiDropdownMenuContent>
-    </UiDropdownMenu>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent class="w-40">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Dark Mode</DropdownMenuLabel>
+          <DropdownMenuItem @click="colorMode.preference = 'system'">System</DropdownMenuItem>
+          <DropdownMenuItem @click="colorMode.preference = 'light'">Light</DropdownMenuItem>
+          <DropdownMenuItem @click="colorMode.preference = 'dark'">Dark</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   </ClientOnly>
 </template>
 

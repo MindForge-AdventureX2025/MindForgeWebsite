@@ -4,22 +4,22 @@
       <h3 class="text-3xl font-bold font-mono">MindForge</h3>
       <div>
         <!-- Navigation Group -->
-        <UiNavigationMenu>
-          <UiNavigationMenuList>
-            <UiNavigationMenuItem>
-              <UiNavigationMenuLink href="/docs/introduction"> Why US </UiNavigationMenuLink>
-            </UiNavigationMenuItem>
-            <UiNavigationMenuItem>
-              <UiNavigationMenuLink href="/docs/introduction"> ... </UiNavigationMenuLink>
-            </UiNavigationMenuItem>
-          </UiNavigationMenuList>
-        </UiNavigationMenu>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/docs/introduction"> Why US </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/docs/introduction"> ... </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
       <div class="flex items-center gap-2">
         <!-- Button group -->
         <SignedOut>
           <SignInButton asChild>
-            <UiButton variant="outline" class="cursor-pointer">Sign In</UiButton>
+            <Button variant="outline" class="cursor-pointer">Sign In</Button>
           </SignInButton>
         </SignedOut>
         <SignedIn>
@@ -33,8 +33,6 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-// 声明2个函数 分别是SignedIn和SignedOut 不使用button 而使用 @click 此处是为了避免在SSR时出现错误
-</script>
+<script lang="ts" setup></script>
 
 <style></style>
