@@ -64,15 +64,37 @@
 import { useBreakpoints } from "@vueuse/core";
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
-import type { ChatHistory } from "../types/chatHistory.d";
+import type { ApiChatHistoryItem, ChatHistory, ShowingChat } from "../types/chatHistory.d";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 const tabs = ref<"diary" | "chat">("diary");
+const chatHistory = reactive<ChatHistory>({});
 
-const { data, refresh, status } = useFetch<[]>("/api/chats/history", { method: "get" });
-console.log(data.value, status.value);
+const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/history", {
+  method: "get",
+});
 
-const chatHistory: ChatHistory = {};
+if (status.value === "success") {
+  const transfer = (originalData: ApiChatHistoryItem): ShowingChat => {
+    return {
+      id: originalData._id,
+      name: originalData.title,
+      time: new Date(originalData.updatedAt).getTime(),
+    };
+  };
+
+  data.value?.forEach(item => {
+    if (new Date(item.updatedAt).getDate() === new Date().getDate()) {
+      // 如果在同一天
+      chatHistory.today?.push(transfer(item));
+    }
+  });
+
+  console.log(JSON.stringify(chatHistory));
+} else {
+  // 出现问题 有空再处理
+  console.log(data.value, status.value);
+}
 
 async function post() {
   try {

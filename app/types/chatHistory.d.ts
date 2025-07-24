@@ -1,7 +1,7 @@
 export interface ChatHistory {
   today?: ShowingChat[];
   yesterday?: ShowingChat[];
-  lastWeek?: ShowingChat[];
+  thisWeek?: ShowingChat[];
   other?: ShowingChat[];
 }
 
@@ -11,4 +11,9 @@ export interface ShowingChat {
   id: string;
 }
 
-export interface ApiChatHistoryItem {}
+export interface ApiChatHistoryItem {
+  title: string;
+  _id: string;
+  createdAt: number;
+  updatedAt: number;
+}
