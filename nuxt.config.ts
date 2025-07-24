@@ -38,8 +38,8 @@ export default defineNuxtConfig({
       proxy: `${process.env.NUXT_API_URL}api/chats`,
       cors: true,
     },
-    "/api/chats/history": {
-      proxy: `${process.env.NUXT_API_URL}api/chats/history`,
+    "/api/chats/": {
+      proxy: `${process.env.NUXT_API_URL}api/chats/`,
       cors: true,
     },
   },

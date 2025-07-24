@@ -1,5 +1,6 @@
 <template>
   <SidebarGroup>
+    <SidebarGroupLabel>{{ props.title }}</SidebarGroupLabel>
     <SidebarGroupContent>
       <SidebarMenu>
         <SidebarMenuItem> </SidebarMenuItem>
@@ -9,8 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  href: string;
+const props = defineProps<{
+  title: string;
 }>();
 </script>
 
