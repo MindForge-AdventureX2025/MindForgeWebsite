@@ -1,8 +1,10 @@
 <template>
   <SidebarProvider>
     <UserSidebar />
-    <MobileSidebarController />
-    <slot />
+    <div class="w-full flex flex-col">
+      <UserAppBar />
+      <slot />
+    </div>
   </SidebarProvider>
 </template>
 

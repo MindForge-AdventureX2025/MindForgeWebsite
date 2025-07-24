@@ -83,7 +83,7 @@ const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 
 async function post() {
   try {
-    const data = await $fetch("https://mindforgeserver.onrender.com/api/chats", {
+    const data = await $fetch("/api/chats", {
       method: "post",
     });
     console.log("Data fetched:", data);
