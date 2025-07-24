@@ -3,8 +3,10 @@
     <SidebarGroupLabel>{{ props.title }}</SidebarGroupLabel>
     <SidebarGroupContent>
       <SidebarMenu>
-        <SidebarMenuItem v-for="(item, index) of props.data" asChild :key="index">
-          <NuxtLink :to="item.href"> a </NuxtLink>
+        <SidebarMenuItem v-for="(item, index) of props.data" :key="index + item.href">
+          <SidebarMenuButton>
+            <NuxtLink :to="item.href"> {{ item.name }} </NuxtLink>
+          </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroupContent>

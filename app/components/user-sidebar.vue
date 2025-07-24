@@ -48,10 +48,26 @@
           </div>
           <TabsContent value="diary"> Make changes to your account here. </TabsContent>
           <TabsContent value="chat">
-            <SidebarItemRenderer title="Today" :data="chatHistory.today" />
-            <SidebarItemRenderer title="Yesterday" :data="chatHistory.yesterday" />
-            <SidebarItemRenderer title="This Month" :data="chatHistory.thisMonth" />
-            <SidebarItemRenderer title="Others" :data="chatHistory.other" />
+            <SidebarItemRenderer
+              v-if="chatHistory.today.length > 0"
+              title="Today"
+              :data="chatHistory.today"
+            />
+            <SidebarItemRenderer
+              v-if="chatHistory.yesterday.length > 0"
+              title="Yesterday"
+              :data="chatHistory.yesterday"
+            />
+            <SidebarItemRenderer
+              v-if="chatHistory.thisMonth.length > 0"
+              title="This Month"
+              :data="chatHistory.thisMonth"
+            />
+            <SidebarItemRenderer
+              v-if="chatHistory.other.length > 0"
+              title="Others"
+              :data="chatHistory.other"
+            />
           </TabsContent>
         </Tabs>
       </SidebarContent>
