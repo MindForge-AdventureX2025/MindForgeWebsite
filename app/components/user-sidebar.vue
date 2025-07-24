@@ -30,7 +30,7 @@
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
+                  <NuxtLink class="hover:cursor-pointer">
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
                     <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
@@ -41,7 +41,7 @@
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
                     <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
+                  </NuxtLink class="hover:cursor-pointer">
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -49,12 +49,12 @@
                   <NuxtLink>
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
                     <span v-if="open">R**n Z*u</span>
-                  </NuxtLink>
+                  </NuxtLink class="hover:cursor-pointer">
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild class="flex items-center">
-                  <NuxtLink>
+                  <NuxtLink class="hover:cursor-pointer">
                     <Icon name="arcticons:human-benchmark" class="text-xl" />
                     <span v-if="open">R**n Z*u</span>
                   </NuxtLink>
