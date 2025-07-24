@@ -29,4 +29,10 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: "",
   },
+  routeRules: {
+    "/api/journals": {
+      proxy: "https://mindforgeserver.onrender.com/api/journals",
+      cors: true,
+    },
+  },
 });
