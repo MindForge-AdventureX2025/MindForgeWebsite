@@ -90,6 +90,9 @@ function changeOpen() {
 function changeOpenMobile() {
   setOpenMobile(!openMobile.value);
 }
+
+const { data, refresh, status } = useFetch("/api/chats/history", { method: "get" });
+console.log(data, status);
 </script>
 
 <style></style>

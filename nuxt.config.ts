@@ -38,5 +38,9 @@ export default defineNuxtConfig({
       proxy: "https://mindforgeserver.onrender.com/api/chats",
       cors: true,
     },
+    "/api/chats/history": {
+      proxy: "https://mindforgeserver.onrender.com/api/chats/history",
+      cors: true,
+    },
   },
 });
