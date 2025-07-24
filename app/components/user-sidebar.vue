@@ -29,21 +29,25 @@
       </SidebarHeader>
 
       <SidebarContent>
-        <Tabs default-value="diary" v-if="(!isMobile && open) || isMobile">
+        <Tabs
+          v-model:model-value="tabs"
+          default-value="diary"
+          v-if="(!isMobile && open) || isMobile"
+        >
           <div class="px-2 w-full">
             <TabsList class="w-full">
               <TabsTrigger value="diary">
-                <Icon name="ri:account-box-line" class="text-xl" />
+                <Icon name="system-uicons:notebook" class="text-xl" />
                 <span v-if="open">Diaries</span>
               </TabsTrigger>
-              <TabsTrigger value="chats">
-                <Icon name="ri:account-box-line" class="text-xl" />
+              <TabsTrigger value="chat">
+                <Icon name="humbleicons:chats" class="text-xl" />
                 <span v-if="open">Chats</span>
               </TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="diary"> Make changes to your account here. </TabsContent>
-          <TabsContent value="chats">
+          <TabsContent value="chat">
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -57,7 +61,7 @@
       <SidebarFooter>
         <SidebarMenuButton @click="post" class="flex items-center cursor-pointer">
           <Icon name="material-symbols:add" class="text-xl" />
-          <span v-if="open">New Diary</span>
+          <span v-if="open">New {{ tabs.charAt(0).toUpperCase() + tabs.slice(1) }}</span>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
@@ -71,6 +75,7 @@ import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
 import type { ChatHistory } from "../types/chatHistory.d";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
+const tabs = ref<"diary" | "chat">("diary");
 
 async function post() {
   try {
