@@ -1,8 +1,5 @@
 <template>
-  <SidebarProvider>
-    <UserSidebar />
-    <slot />
-  </SidebarProvider>
+  <ClientOnly> </ClientOnly>
 </template>
 
 <script lang="ts" setup></script>
