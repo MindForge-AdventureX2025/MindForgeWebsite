@@ -7,7 +7,7 @@
         "
       >
         <span v-if="open">Head</span>
-        <Button variant="outline" size="icon" class="!w-8 !h-8 sm:block hidden">
+        <Button variant="outline" size="icon" class="!w-8 !h-8 sm:flex hidden">
           <Icon v-if="open" name="ri:menu-fold-line" class="text-xl" @click="changeOpen" />
           <Icon v-else name="ri:menu-fold-2-line" class="text-xl" @click="changeOpen" />
         </Button>
@@ -22,9 +22,20 @@
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarContent> </SidebarContent>
-        </SidebarGroup>
+        <Tabs default-value="diary" v-if="(!isMobile && open) || isMobile">
+          <div class="w-full px-2">
+            <TabsList class="w-full">
+              <TabsTrigger value="diary">
+                <Icon name="ri:account-box-line" class="text-xl" />
+                <span v-if="open">Diaries</span>
+              </TabsTrigger>
+              <TabsTrigger value="chats">
+                <Icon name="ri:account-box-line" class="text-xl" />
+                <span v-if="open">Chats</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
+        </Tabs>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -75,6 +86,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useBreakpoints } from "@vueuse/core";
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
 
@@ -90,6 +102,14 @@ async function post() {
     console.error("Error fetching data:", error);
   }
 }
+
+const breakpoints = useBreakpoints({
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+});
+const isMobile = breakpoints.smaller("sm");
 
 function changeOpen() {
   setOpen(!open.value);
