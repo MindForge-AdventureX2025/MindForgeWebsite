@@ -14,12 +14,12 @@ export default defineNuxtConfig({
 
   modules: [
     "@nuxt/content",
-    "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxt/image",
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
+    "@clerk/nuxt",
   ],
   shadcn: {
     // prefix: "Shadcn",
