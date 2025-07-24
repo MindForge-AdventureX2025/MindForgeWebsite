@@ -19,10 +19,14 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "shadcn-nuxt",
+    "@nuxtjs/color-mode",
   ],
   shadcn: {
     // prefix: "Shadcn",
     prefix: "",
     componentDir: "./components/ui",
+  },
+  colorMode: {
+    classSuffix: "",
   },
 });
