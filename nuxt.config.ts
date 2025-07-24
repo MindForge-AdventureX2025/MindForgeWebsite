@@ -31,15 +31,15 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/api/journals": {
-      proxy: "https://mindforgeserver.onrender.com/api/journals",
+      proxy: `${process.env.NUXT_API_URL}api/journals`,
       cors: true,
     },
     "/api/chats": {
-      proxy: "https://mindforgeserver.onrender.com/api/chats",
+      proxy: `${process.env.NUXT_API_URL}api/chats`,
       cors: true,
     },
     "/api/chats/history": {
-      proxy: "https://mindforgeserver.onrender.com/api/chats/history",
+      proxy: `${process.env.NUXT_API_URL}api/chats/history`,
       cors: true,
     },
   },

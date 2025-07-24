@@ -61,6 +61,7 @@
 import { useBreakpoints } from "@vueuse/core";
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
+import type { ChatHistory } from "../types/chatHistory";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 
@@ -91,8 +92,10 @@ function changeOpenMobile() {
   setOpenMobile(!openMobile.value);
 }
 
-const { data, refresh, status } = useFetch("/api/chats/history", { method: "get" });
-console.log(data, status);
+const { data, refresh, status } = useFetch<[]>("/api/chats/history", { method: "get" });
+console.log(data.value, status.value);
+
+const chatHistory: ChatHistory = {};
 </script>
 
 <style></style>

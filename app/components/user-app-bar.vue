@@ -4,9 +4,11 @@
       <MobileSidebarController />
       <h3 class="font-bold text-xl">Today's Diary</h3>
     </div>
-    <SignedIn>
-      <UserButton />
-    </SignedIn>
+    <client-only>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </client-only>
   </div>
 </template>
 
