@@ -26,7 +26,6 @@
           <SidebarContent> </SidebarContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel> F </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
