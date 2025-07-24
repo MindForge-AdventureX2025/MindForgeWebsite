@@ -82,15 +82,9 @@ import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 
 async function post() {
-  // 写一个方法 用于 post https://mindforgeserver.onrender.com/api/journals 这个api
-  // 发送数据到服务器 使用nuxt数据获取
   try {
-    const data = await $fetch("/api/journals", {
+    const data = await $fetch("https://mindforgeserver.onrender.com/api/chats", {
       method: "post",
-      body: {
-        title: "dfagaqegalbduqo",
-        content: "p1ufva2fdva",
-      },
     });
     console.log("Data fetched:", data);
   } catch (error) {

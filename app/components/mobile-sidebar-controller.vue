@@ -1,7 +1,9 @@
 <template>
-  <Button size="icon" variant="ghost" class="inline sm:hidden">
-    <Icon v-if="!openMobile" name="ri:menu-fold-2-line" class="text-xl" @click="changeOpenMobile" />
-  </Button>
+  <ClientOnly>
+    <Button size="icon" variant="ghost" class="inline sm:hidden" @click="changeOpenMobile">
+      <Icon v-if="!openMobile" name="ri:menu-fold-2-line" class="text-xl" />
+    </Button>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>

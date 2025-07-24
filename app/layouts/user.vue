@@ -1,10 +1,8 @@
 <template>
   <SidebarProvider>
     <UserSidebar />
+    <MobileSidebarController />
     <slot />
-    <ClientOnly>
-      <MobileSidebarController />
-    </ClientOnly>
   </SidebarProvider>
 </template>
 

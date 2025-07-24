@@ -1,4 +1,4 @@
-<template></template>
+<template><span>a</span></template>
 
 <script lang="ts" setup>
 definePageMeta({
