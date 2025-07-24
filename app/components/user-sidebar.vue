@@ -1,23 +1,30 @@
 <template>
   <ClientOnly>
     <Sidebar collapsible="icon">
-      <SidebarHeader
-        :class="
-          'flex flex-row items-center ' + (open ? 'p-4 justify-between' : 'py-4 justify-center')
-        "
-      >
-        <span v-if="open">Head</span>
-        <Button variant="outline" size="icon" class="!w-8 !h-8 sm:flex hidden">
-          <Icon v-if="open" name="ri:menu-fold-line" class="text-xl" @click="changeOpen" />
-          <Icon v-else name="ri:menu-fold-2-line" class="text-xl" @click="changeOpen" />
-        </Button>
-        <Button variant="outline" size="icon" class="!w-8 !h-8 block sm:hidden">
-          <Icon
-            v-if="openMobile"
-            name="ri:menu-fold-line"
-            class="text-xl"
+      <SidebarHeader :class="open ? 'p-4 ' : 'py-4'">
+        <div
+          :class="'flex items-center flex-row' + (open ? ' justify-between' : ' justify-center')"
+        >
+          <span v-if="open">Head</span>
+          <Button variant="outline" size="icon" class="!w-8 !h-8 sm:flex hidden">
+            <Icon v-if="open" name="ri:menu-fold-line" class="text-xl" @click="changeOpen" />
+            <Icon v-else name="ri:menu-fold-2-line" class="text-xl" @click="changeOpen" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            class="!w-8 !h-8 flex sm:hidden"
             @click="changeOpenMobile"
-          />
+          >
+            <Icon v-if="openMobile" name="ri:menu-fold-line" class="text-xl" />
+          </Button>
+        </div>
+        <Button class="w-full" variant="ghost" v-if="open">
+          <Icon name="material-symbols:settings" class="text-xl" />
+          <span>Settings</span>
+        </Button>
+        <Button variant="ghost" size="icon" class="!w-8 !h-8" v-else>
+          <Icon name="material-symbols:settings" class="text-xl" />
         </Button>
       </SidebarHeader>
 
