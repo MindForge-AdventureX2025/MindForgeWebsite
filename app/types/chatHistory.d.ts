@@ -1,14 +1,10 @@
-export interface ChatHistory {
-  today: ShowingChat[];
-  yesterday: ShowingChat[];
-  thisMonth: ShowingChat[];
-  other: ShowingChat[];
-}
+import type { RenderingItem } from "./sidebarRendering";
 
-export interface ShowingChat {
-  name: string;
-  time: number;
-  id: string;
+export interface ChatHistory {
+  today: RenderingItem[];
+  yesterday: RenderingItem[];
+  thisMonth: RenderingItem[];
+  other: RenderingItem[];
 }
 
 export interface ApiChatHistoryItem {

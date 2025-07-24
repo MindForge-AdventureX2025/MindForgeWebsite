@@ -47,7 +47,12 @@
             </TabsList>
           </div>
           <TabsContent value="diary"> Make changes to your account here. </TabsContent>
-          <TabsContent value="chat"> </TabsContent>
+          <TabsContent value="chat">
+            <SidebarItemRenderer title="Today" :data="chatHistory.today" />
+            <SidebarItemRenderer title="Yesterday" :data="chatHistory.yesterday" />
+            <SidebarItemRenderer title="This Month" :data="chatHistory.thisMonth" />
+            <SidebarItemRenderer title="Others" :data="chatHistory.other" />
+          </TabsContent>
         </Tabs>
       </SidebarContent>
       <SidebarFooter>
@@ -64,7 +69,8 @@
 import { useBreakpoints } from "@vueuse/core";
 import { useSidebar } from "./ui/sidebar";
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
-import type { ApiChatHistoryItem, ChatHistory, ShowingChat } from "../types/chatHistory.d";
+import type { ApiChatHistoryItem, ChatHistory } from "../types/chatHistory.d";
+import type { RenderingItem } from "~/types/sidebarRendering";
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar();
 const tabs = ref<"diary" | "chat">("diary");
@@ -80,11 +86,10 @@ const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/", 
 });
 
 if (status.value === "success") {
-  const transfer = (originalData: ApiChatHistoryItem): ShowingChat => {
+  const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
     return {
-      id: originalData._id,
+      href: originalData._id,
       name: originalData.title,
-      time: new Date(originalData.updatedAt).getTime(),
     };
   };
 
