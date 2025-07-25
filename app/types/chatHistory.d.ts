@@ -12,4 +12,5 @@ export interface ApiChatHistoryItem {
   _id: string;
   createdAt: number;
   updatedAt: number;
+  nonTitleUpdatedAt: number;
 }

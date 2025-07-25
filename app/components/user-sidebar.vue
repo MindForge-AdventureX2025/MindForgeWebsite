@@ -113,13 +113,13 @@ if (status.value === "success") {
   };
 
   data.value?.forEach(item => {
-    if (new Date(item.updatedAt).getDate() === new Date().getDate()) {
+    if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate()) {
       // 如果在同一天
       chatHistory.today.push(transfer(item));
-    } else if (new Date(item.updatedAt).getDate() === new Date().getDate() - 1) {
+    } else if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate() - 1) {
       // 如果是昨天
       chatHistory.yesterday.push(transfer(item));
-    } else if (new Date(item.updatedAt).getMonth() === new Date().getMonth()) {
+    } else if (new Date(item.nonTitleUpdatedAt).getMonth() === new Date().getMonth()) {
       // 如果是更早的
       chatHistory.thisMonth.push(transfer(item));
     } else {

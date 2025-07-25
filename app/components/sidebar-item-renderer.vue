@@ -18,7 +18,7 @@
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel>Edit</DropdownMenuLabel>
+                    <DropdownMenuLabel class="!text-sm text-gray-400">Edit</DropdownMenuLabel>
 
                     <!-- DialogTriggers -->
                     <DialogTrigger as-child>
@@ -54,8 +54,8 @@
                 <DialogFooter>
                   <DialogClose>
                     <Button variant="secondary">Cancel</Button>
+                    <Button @click="renameChat(index)">Save</Button>
                   </DialogClose>
-                  <Button @click="renameChat(index)">Save</Button>
                 </DialogFooter>
               </DialogContent>
 
