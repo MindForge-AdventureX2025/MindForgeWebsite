@@ -1,11 +1,13 @@
 <template>
-  <ClientOnly>aa </ClientOnly>
+  <div></div>
+  <!-- <ClientOnly>aa </ClientOnly> -->
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
   middleware: ["user"],
   layout: false,
+  title: "Home Page",
 });
 </script>
 
