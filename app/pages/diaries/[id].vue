@@ -1,13 +1,13 @@
-<template>
-  <div/>
-</template>
-
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ["user"],
+  middleware: ['user'],
   layout: false,
-  title: "Chats",
-});
+  title: 'Chats',
+})
 </script>
+
+<template>
+  <div />
+</template>
 
 <style></style>

@@ -1,9 +1,9 @@
-<template>
-  <div/>
-</template>
-
 <script lang="ts" setup>
-await navigateTo("/home");
+await navigateTo('/home')
 </script>
+
+<template>
+  <div />
+</template>
 
 <style></style>

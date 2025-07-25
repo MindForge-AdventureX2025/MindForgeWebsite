@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
   <SidebarProvider>
     <UserSidebar />
@@ -7,7 +9,5 @@
     </div>
   </SidebarProvider>
 </template>
-
-<script lang="ts" setup></script>
 
 <style></style>

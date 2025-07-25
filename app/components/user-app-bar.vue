@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const route = useRoute()
+</script>
+
 <template>
   <div class="w-full h-14 flex items-center justify-between px-5">
     <div class="flex items-center">
@@ -13,7 +17,3 @@
     </client-only>
   </div>
 </template>
-
-<script setup lang="ts">
-const route = useRoute();
-</script>

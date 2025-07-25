@@ -1,3 +1,44 @@
+<script lang="ts" setup>
+import type { RenderingItem } from '~/types/sidebarRendering'
+
+const props = defineProps<{
+  title: string
+  data: RenderingItem[]
+}>()
+const dialogType = ref<'rename' | 'delete'>('rename')
+const newName = ref<string>('')
+
+function setDialogType(type: 'rename' | 'delete') {
+  dialogType.value = type
+}
+
+async function deleteChat(index: number) {
+  // 乐观更新
+  const item = props.data[index]
+  if (item && item.delete) {
+    // eslint-disable-next-line vue/no-mutating-props
+    props.data.splice(index, 1)
+
+    await $fetch(item.delete, {
+      method: 'delete',
+    })
+  }
+}
+
+async function renameChat(index: number) {
+  // 乐观更新
+  const item = props.data[index]
+  if (item && item.rename) {
+    item.name = newName.value
+
+    await $fetch(item.rename, {
+      method: 'post',
+      body: { name: newName.value },
+    })
+  }
+}
+</script>
+
 <template>
   <SidebarGroup>
     <SidebarGroupLabel>{{ props.title }}</SidebarGroupLabel>
@@ -18,7 +59,9 @@
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel class="!text-sm text-gray-400">Edit</DropdownMenuLabel>
+                    <DropdownMenuLabel class="!text-sm text-gray-400">
+                      Edit
+                    </DropdownMenuLabel>
 
                     <!-- DialogTriggers -->
                     <DialogTrigger as-child>
@@ -53,8 +96,12 @@
                 </div>
                 <DialogFooter>
                   <DialogClose>
-                    <Button variant="secondary">Cancel</Button>
-                    <Button @click="renameChat(index)">Save</Button>
+                    <Button variant="secondary">
+                      Cancel
+                    </Button>
+                    <Button @click="renameChat(index)">
+                      Save
+                    </Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>
@@ -62,15 +109,19 @@
               <DialogContent v-else>
                 <DialogHeader>
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
-                  <DialogDescription
-                    >This action cannot be undone. This will permanently delete your chat and remove
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete your chat and remove
                     the data from our servers.
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                   <DialogClose>
-                    <Button variant="secondary">Cancel</Button>
-                    <Button variant="destructive" @click="deleteChat(index)"> Continue</Button>
+                    <Button variant="secondary">
+                      Cancel
+                    </Button>
+                    <Button variant="destructive" @click="deleteChat(index)">
+                      Continue
+                    </Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>
@@ -81,46 +132,5 @@
     </SidebarGroupContent>
   </SidebarGroup>
 </template>
-
-<script lang="ts" setup>
-import type { RenderingItem } from "~/types/sidebarRendering";
-const dialogType = ref<"rename" | "delete">("rename");
-const newName = ref<string>("");
-
-const props = defineProps<{
-  title: string;
-  data: RenderingItem[];
-}>();
-
-const setDialogType = (type: "rename" | "delete") => {
-  dialogType.value = type;
-};
-
-const deleteChat = async (index: number) => {
-  // 乐观更新
-  const item = props.data[index];
-  if (item && item.delete) {
-    // eslint-disable-next-line vue/no-mutating-props
-    props.data.splice(index, 1);
-
-    await $fetch(item.delete, {
-      method: "delete",
-    });
-  }
-};
-
-const renameChat = async (index: number) => {
-  // 乐观更新
-  const item = props.data[index];
-  if (item && item.rename) {
-    item.name = newName.value;
-
-    await $fetch(item.rename, {
-      method: "post",
-      body: { name: newName.value },
-    });
-  }
-};
-</script>
 
 <style></style>

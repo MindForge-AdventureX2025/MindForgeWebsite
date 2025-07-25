@@ -1,6 +1,6 @@
-import * as React from "react"
-import type { Editor } from "@tiptap/react"
-import { useWindowSize } from "@/hooks/use-window-size"
+import type { Editor } from '@tiptap/react'
+import * as React from 'react'
+import { useWindowSize } from '@/hooks/use-window-size'
 
 export interface CursorVisibilityOptions {
   /**
@@ -13,7 +13,7 @@ export interface CursorVisibilityOptions {
   overlayHeight?: number
 }
 
-export type RectState = Omit<DOMRect, "toJSON">
+export type RectState = Omit<DOMRect, 'toJSON'>
 
 /**
  * Custom hook that ensures the cursor remains visible when typing in a Tiptap editor.
@@ -60,21 +60,23 @@ export function useCursorVisibility({
     })
 
     resizeObserver.observe(element)
-    window.addEventListener("scroll", updateRect, true)
+    window.addEventListener('scroll', updateRect, true)
 
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener("scroll", updateRect)
+      window.removeEventListener('scroll', updateRect)
     }
   }, [updateRect])
 
   React.useEffect(() => {
     const ensureCursorVisibility = () => {
-      if (!editor) return
+      if (!editor)
+        return
 
       const { state, view } = editor
 
-      if (!view.hasFocus()) return
+      if (!view.hasFocus())
+        return
 
       // Get current cursor position coordinates
       const { from } = state.selection
@@ -100,7 +102,7 @@ export function useCursorVisibility({
 
             window.scrollTo({
               top: Math.max(0, newScrollY),
-              behavior: "smooth",
+              behavior: 'smooth',
             })
           }
         }

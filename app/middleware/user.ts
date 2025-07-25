@@ -1,8 +1,8 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth()
 
   if (isLoaded.value && !isSignedIn.value) {
-    return navigateTo("/");
+    return navigateTo('/')
   }
-  setPageLayout("user");
-});
+  setPageLayout('user')
+})

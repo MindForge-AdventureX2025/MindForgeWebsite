@@ -1,5 +1,4 @@
 1. `/api/chats/rename/:id`
-
    - **Method**: `POST`
    - **Description**: Renames a chat with the unique ID.
    - **Body Example**:

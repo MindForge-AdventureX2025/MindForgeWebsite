@@ -1,8 +1,8 @@
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2025-07-15",
+  compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   content: {
     experimental: { nativeSqlite: true },
@@ -10,35 +10,35 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  css: ["~/assets/css/main.css"],
+  css: ['~/assets/css/main.css'],
 
   modules: [
-    "@nuxt/content",
-    "@nuxt/fonts",
-    "@nuxt/icon",
-    "@nuxt/image",
-    "shadcn-nuxt",
-    "@nuxtjs/color-mode",
-    "@clerk/nuxt",
-    "@nuxt/eslint",
+    '@nuxt/content',
+    '@nuxt/fonts',
+    '@nuxt/icon',
+    '@nuxt/image',
+    'shadcn-nuxt',
+    '@nuxtjs/color-mode',
+    '@clerk/nuxt',
+    '@nuxt/eslint',
   ],
   shadcn: {
     // prefix: "Shadcn",
-    prefix: "",
-    componentDir: "@/components/ui",
+    prefix: '',
+    componentDir: '@/components/ui',
   },
   colorMode: {
-    classSuffix: "",
+    classSuffix: '',
   },
   routeRules: {
-    "/api/m/**": {
+    '/api/m/**': {
       proxy: `${process.env.NUXT_API_URL}api/**`,
       cors: true,
     },
   },
   eslint: {
     config: {
-      stylistic:true
-    }
-  }
-});
+      stylistic: true,
+    },
+  },
+})

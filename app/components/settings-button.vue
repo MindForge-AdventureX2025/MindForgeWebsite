@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const colorMode = useColorMode()
+</script>
+
 <template>
   <ClientOnly>
     <DropdownMenu>
@@ -9,17 +13,19 @@
       <DropdownMenuContent class="w-40">
         <DropdownMenuGroup>
           <DropdownMenuLabel>Dark Mode</DropdownMenuLabel>
-          <DropdownMenuItem @click="colorMode.preference = 'system'">System</DropdownMenuItem>
-          <DropdownMenuItem @click="colorMode.preference = 'light'">Light</DropdownMenuItem>
-          <DropdownMenuItem @click="colorMode.preference = 'dark'">Dark</DropdownMenuItem>
+          <DropdownMenuItem @click="colorMode.preference = 'system'">
+            System
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="colorMode.preference = 'light'">
+            Light
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="colorMode.preference = 'dark'">
+            Dark
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   </ClientOnly>
 </template>
-
-<script lang="ts" setup>
-const colorMode = useColorMode();
-</script>
 
 <style></style>

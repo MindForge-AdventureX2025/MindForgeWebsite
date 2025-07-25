@@ -1,14 +1,14 @@
-<template>
-  <div/>
-  <!-- <ClientOnly>aa </ClientOnly> -->
-</template>
-
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ["user"],
+  middleware: ['user'],
   layout: false,
-  title: "Home Page",
-});
+  title: 'Home Page',
+})
 </script>
+
+<template>
+  <div />
+  <!-- <ClientOnly>aa </ClientOnly> -->
+</template>
 
 <style></style>

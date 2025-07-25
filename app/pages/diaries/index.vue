@@ -1,10 +1,10 @@
-<template>
-  <div/>
-</template>
-
 <script lang="ts" setup>
 
 </script>
+
+<template>
+  <div />
+</template>
 
 <style>
 

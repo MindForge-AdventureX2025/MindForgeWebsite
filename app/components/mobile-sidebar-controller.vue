@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { useSidebar } from './ui/sidebar'
+
+const { openMobile, setOpenMobile } = useSidebar()
+
+function changeOpenMobile() {
+  setOpenMobile(!openMobile.value)
+}
+</script>
+
 <template>
   <ClientOnly>
     <Button size="icon" variant="ghost" class="flex sm:hidden" @click="changeOpenMobile">
@@ -5,14 +15,5 @@
     </Button>
   </ClientOnly>
 </template>
-
-<script lang="ts" setup>
-import { useSidebar } from "./ui/sidebar";
-const { openMobile, setOpenMobile } = useSidebar();
-
-function changeOpenMobile() {
-  setOpenMobile(!openMobile.value);
-}
-</script>
 
 <style></style>
