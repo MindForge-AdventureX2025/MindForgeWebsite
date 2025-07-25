@@ -7,6 +7,12 @@
       >
         <h3 class="text-stone-400 text-4xl">How can I help you today?</h3>
       </div>
+
+      <client-backend-provider v-else>
+        <div v-for="(message, index) of data.messages">
+          {{ message }}
+        </div>
+      </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
           :class="
@@ -55,7 +61,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useDebounceFn } from "@vueuse/core";
 import type { Chat } from "~/types/chat";
 
 const route = useRoute();
