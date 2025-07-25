@@ -35,7 +35,7 @@
                         class="flex items-center gap-3"
                         @click="setDialogType('delete')"
                       >
-                        <span>Delete</span>
+                        <span class="text-red-500">Delete</span>
                       </DropdownMenuItem>
                     </DialogTrigger>
                   </DropdownMenuGroup>
@@ -55,7 +55,7 @@
                   <DialogClose>
                     <Button variant="secondary">Cancel</Button>
                   </DialogClose>
-                  <Button>Save</Button>
+                  <Button @click="renameChat(index)">Save</Button>
                 </DialogFooter>
               </DialogContent>
 
@@ -97,13 +97,26 @@ const setDialogType = (type: "rename" | "delete") => {
 };
 
 const deleteChat = async (index: number) => {
-  // 先调用API 然后乐观更新
+  // 乐观更新
   const item = props.data[index];
   if (item && item.delete) {
     props.data.splice(index, 1);
 
     await $fetch(item.delete, {
       method: "delete",
+    });
+  }
+};
+
+const renameChat = async (index: number) => {
+  // 乐观更新
+  const item = props.data[index];
+  if (item && item.rename) {
+    item.name = newName.value;
+
+    await $fetch(item.rename, {
+      method: "post",
+      body: { name: newName.value },
     });
   }
 };
