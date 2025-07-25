@@ -49,7 +49,7 @@
                 <div class="flex flex-col gap-2">
                   <!-- Body -->
                   <Label for="name" class="text-sm"> New Name </Label>
-                  <Input id="name" placeholder="New Chat" v-model="newName" />
+                  <Input id="name" v-model="newName" placeholder="New Chat" />
                 </div>
                 <DialogFooter>
                   <DialogClose>
@@ -100,6 +100,7 @@ const deleteChat = async (index: number) => {
   // 乐观更新
   const item = props.data[index];
   if (item && item.delete) {
+    // eslint-disable-next-line vue/no-mutating-props
     props.data.splice(index, 1);
 
     await $fetch(item.delete, {

@@ -36,4 +36,9 @@ export default defineNuxtConfig({
       cors: true,
     },
   },
+  eslint: {
+    config: {
+      stylistic:true
+    }
+  }
 });

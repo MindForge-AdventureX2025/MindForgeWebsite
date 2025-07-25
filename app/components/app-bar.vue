@@ -19,7 +19,7 @@
     <div class="flex items-center gap-2">
       <!-- Button group -->
       <SignedOut>
-        <SignInButton asChild>
+        <SignInButton as-child>
           <Button variant="outline" class="cursor-pointer">Sign In</Button>
         </SignInButton>
       </SignedOut>

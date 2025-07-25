@@ -19,20 +19,20 @@
             <Icon v-if="openMobile" name="ri:menu-fold-line" class="text-xl" />
           </Button>
         </div>
-        <Button class="w-full" variant="ghost" v-if="open">
+        <Button v-if="open" class="w-full" variant="ghost">
           <Icon name="material-symbols:settings" class="text-xl" />
           <span>Settings</span>
         </Button>
-        <Button variant="ghost" size="icon" class="!w-8 !h-8" v-else>
+        <Button v-else variant="ghost" size="icon" class="!w-8 !h-8">
           <Icon name="material-symbols:settings" class="text-xl" />
         </Button>
       </SidebarHeader>
 
       <SidebarContent>
         <Tabs
+          v-if="(!isMobile && open) || isMobile"
           v-model:model-value="tabs"
           default-value="diary"
-          v-if="(!isMobile && open) || isMobile"
         >
           <div class="px-2 w-full">
             <TabsList class="w-full">
@@ -93,7 +93,7 @@
         </Tabs>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton @click="create" class="flex items-center cursor-pointer">
+        <SidebarMenuButton class="flex items-center cursor-pointer" @click="create">
           <Icon name="material-symbols:add" class="text-xl" />
           <span v-if="open">New {{ tabs.charAt(0).toUpperCase() + tabs.slice(1) }}</span>
         </SidebarMenuButton>

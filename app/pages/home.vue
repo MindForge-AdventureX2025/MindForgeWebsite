@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div/>
   <!-- <ClientOnly>aa </ClientOnly> -->
 </template>
 
