@@ -100,7 +100,7 @@ watch(
   dataJournal,
   (newData) => {
     if (newData) {
-      if (statusChat.value === 'success') {
+      if (statusJournal.value === 'success') {
         journalHistory.today = []
         journalHistory.yesterday = []
         journalHistory.thisMonth = []
