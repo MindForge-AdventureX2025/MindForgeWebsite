@@ -45,32 +45,33 @@
               <DialogContent v-if="dialogType === 'rename'">
                 <DialogHeader>
                   <DialogTitle>Rename</DialogTitle>
-                  <!-- Do Not Need Any description -->
                 </DialogHeader>
-                <div>
+                <div class="flex flex-col gap-2">
                   <!-- Body -->
+                  <Label for="name" class="text-sm"> New Name </Label>
+                  <Input id="name" placeholder="New Chat" v-model="newName" />
                 </div>
                 <DialogFooter>
                   <DialogClose>
                     <Button variant="secondary">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit"> Save </Button>
+                  <Button>Save</Button>
                 </DialogFooter>
               </DialogContent>
 
               <DialogContent v-else>
                 <DialogHeader>
-                  <DialogTitle>Delete</DialogTitle>
-                  <!-- Do Not Need Any description -->
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription
+                    >This action cannot be undone. This will permanently delete your chat and remove
+                    the data from our servers.
+                  </DialogDescription>
                 </DialogHeader>
-                <div>
-                  <!-- Body -->
-                </div>
                 <DialogFooter>
                   <DialogClose>
                     <Button variant="secondary">Cancel</Button>
                   </DialogClose>
-                  <Button type="submit"> Save </Button>
+                  <Button variant="destructive"> Continue</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -84,6 +85,7 @@
 <script lang="ts" setup>
 import type { RenderingItem } from "~/types/sidebarRendering";
 const dialogType = ref<"rename" | "delete">("rename");
+const newName = ref<string>("");
 
 const props = defineProps<{
   title: string;
