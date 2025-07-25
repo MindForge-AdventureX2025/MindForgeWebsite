@@ -12,13 +12,14 @@
         v-else
         class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
       >
-        <div v-for="(message, index) of data.messages">
+        <div v-for="(message, index) of data.messages" :key="index + message._doc._id">
           <div v-if="message._doc.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
             {{ message._doc.content }}
           </div>
 
           <div v-else class="px-2">{{ message._doc.content }}</div>
         </div>
+        <Skeleton v-if="!canSend" class="w-full h-14"></Skeleton>
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
@@ -68,7 +69,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Chat } from "~/types/chat";
+import Skeleton from "~/components/ui/skeleton/Skeleton.vue";
+import type { Chat, ChatInfo, UpdateResponse } from "~/types/chat";
 
 const route = useRoute();
 const focus = ref(false);
@@ -96,24 +98,45 @@ const send = async () => {
     canSend.value = false;
     const text = textValue.value;
     textValue.value = "";
-    const data = await $fetch("/api/m/chats/" + route.params.id, {
+
+    data.value?.messages.push({
+      _doc: {
+        sender: "user",
+        content: text,
+        journalId: [],
+        timestamp: new Date().getTime(),
+        _id: "",
+      },
+    });
+    const returnValues = await $fetch<UpdateResponse>("/api/m/chats/" + route.params.id, {
       method: "put",
       body: {
         message: text,
       },
     });
+    console.log(returnValues);
     canSend.value = true;
-    await refresh();
 
-    console.log(data);
+    // 处理数组
+    data.value?.messages.pop();
+    if (returnValues.originalChat.messages.length > 0) {
+      data.value?.messages.push({ _doc: returnValues.originalChat.messages.pop() as ChatInfo });
+    }
+    data.value?.messages.push({
+      _doc: {
+        sender: "llm",
+        content: returnValues.response,
+        journalId: [],
+        timestamp: "",
+        _id: "",
+      },
+    });
   }
 };
 
 const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
   method: "get",
 });
-
-console.log(data.value, status.value);
 
 definePageMeta({
   middleware: ["user"],
