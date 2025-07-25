@@ -8,9 +8,16 @@
         <h3 class="text-stone-400 text-4xl">How can I help you today?</h3>
       </div>
 
-      <client-backend-provider v-else>
+      <client-backend-provider
+        v-else
+        class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
+      >
         <div v-for="(message, index) of data.messages">
-          {{ message }}
+          <div v-if="message._doc.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
+            {{ message._doc.content }}
+          </div>
+
+          <div v-else class="px-2">{{ message._doc.content }}</div>
         </div>
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
@@ -87,13 +94,16 @@ const handleKeydown = (event: KeyboardEvent) => {
 const send = async () => {
   if (canSend.value) {
     canSend.value = false;
+    const text = textValue.value;
+    textValue.value = "";
     const data = await $fetch("/api/m/chats/" + route.params.id, {
       method: "put",
       body: {
-        message: textValue.value,
+        message: text,
       },
     });
     canSend.value = true;
+    await refresh();
 
     console.log(data);
   }
