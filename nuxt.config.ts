@@ -32,6 +32,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/api/m/**': {
+      // eslint-disable-next-line node/prefer-global/process
       proxy: `${process.env.NUXT_API_URL}api/**`,
       cors: true,
     },

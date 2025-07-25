@@ -3,9 +3,24 @@ import type { Chat, ChatInfo, UpdateResponse } from '~/types/chat'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 
 const route = useRoute()
+const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
+  method: 'get',
+})
 const focus = ref(false)
 const textValue = ref<string>('')
 const canSend = ref(true)
+const showingMessages = reactive<ChatInfo[]>([])
+
+watch(data, (newValue) => {
+  showingMessages.length = 0
+  if (status.value === 'success' && newValue?.messages !== undefined) {
+    showingMessages.push(...newValue.messages.map((e) => {
+      return e._doc
+    }))
+  }
+}, {
+  immediate: true,
+})
 
 function makeFocus() {
   focus.value = true
@@ -29,44 +44,32 @@ async function send() {
     const text = textValue.value
     textValue.value = ''
 
-    data.value?.messages.push({
-      _doc: {
-        sender: 'user',
-        content: text,
-        journalId: [],
-        timestamp: new Date().getTime(),
-        _id: '',
-      },
+    showingMessages.push({
+      sender: 'user',
+      content: text,
+      journalId: [],
+      timestamp: new Date().getTime(),
+      _id: '',
     })
+
     const returnValues = await $fetch<UpdateResponse>(`/api/m/chats/${route.params.id}`, {
       method: 'put',
       body: {
         message: text,
       },
     })
-    console.log(returnValues)
     canSend.value = true
 
     // 处理数组
-    data.value?.messages.pop()
+    showingMessages.pop()
+
     if (returnValues.originalChat.messages.length > 0) {
-      data.value?.messages.push({ _doc: returnValues.originalChat.messages.pop() as ChatInfo })
+      showingMessages.length = 0
+
+      showingMessages.push(...returnValues.originalChat.messages)
     }
-    data.value?.messages.push({
-      _doc: {
-        sender: 'llm',
-        content: returnValues.response,
-        journalId: [],
-        timestamp: '',
-        _id: '',
-      },
-    })
   }
 }
-
-const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
-  method: 'get',
-})
 
 definePageMeta({
   middleware: ['user'],
@@ -79,7 +82,7 @@ definePageMeta({
   <template v-if="data && status === 'success' && 'messages' in data">
     <div class="w-full flex-[1] flex flex-col">
       <div
-        v-if="data?.messages.length === 0"
+        v-if="showingMessages.length === 0"
         class="flex flex-col items-center justify-center flex-[1]"
       >
         <h3 class="text-stone-400 text-4xl">
@@ -91,13 +94,13 @@ definePageMeta({
         v-else
         class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
       >
-        <div v-for="(message, index) of data.messages" :key="index + message._doc._id">
-          <div v-if="message._doc.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
-            {{ message._doc.content }}
+        <div v-for="(message, index) of showingMessages" :key="index + message.timestamp.toString()">
+          <div v-if="message.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
+            {{ message.content }}
           </div>
 
           <div v-else class="px-2">
-            {{ message._doc.content }}
+            {{ message.content }}
           </div>
         </div>
         <Skeleton v-if="!canSend" class="w-full h-14" />

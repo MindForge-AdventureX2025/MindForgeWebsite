@@ -8,9 +8,9 @@ export interface Chat {
 export interface ChatInfo {
   sender: 'llm' | 'user'
   content: string
-  journalId: any[]
+  journalId?: string[]
   timestamp: string | Date | number
-  _id: string
+  _id?: string
 }
 
 export interface UpdateResponse {

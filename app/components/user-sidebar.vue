@@ -22,12 +22,6 @@ const journalHistory = reactive<ChatHistory>({
 
 const route = useRoute()
 
-// route变化的时候refresh数据
-watch(route, async () => {
-  await refreshChat()
-  await refreshJournal()
-})
-
 const {
   data: dataChat,
   refresh: refreshChat,
@@ -42,6 +36,12 @@ const {
   status: statusJournal,
 } = useFetch<ApiChatHistoryItem[]>('/api/m/journals/', {
   method: 'get',
+})
+
+// route变化的时候refresh数据
+watch(route, async () => {
+  await refreshChat()
+  await refreshJournal()
 })
 
 // data更新时自动做操作

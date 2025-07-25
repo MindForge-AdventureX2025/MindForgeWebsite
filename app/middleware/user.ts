@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((_to, _from) => {
   const { isLoaded, isSignedIn } = useAuth()
 
   if (isLoaded.value && !isSignedIn.value) {
