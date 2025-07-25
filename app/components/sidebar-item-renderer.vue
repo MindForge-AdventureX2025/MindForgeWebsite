@@ -8,9 +8,32 @@
             <NuxtLink :to="item.href" class="flex-1 whitespace-nowrap overflow-hidden">
               {{ item.name }}
             </NuxtLink>
-            <Button size="icon" variant="ghost" class="cursor-pointer">
-              <Icon name="proicons:more" class="text-xl" />
-            </Button>
+
+            <!-- 配置详细按钮 -->
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button size="icon" variant="ghost" class="cursor-pointer">
+                  <Icon name="proicons:more" class="text-xl" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <!-- <DropdownMenuGroup>
+                  <DropdownMenuLabel>你好</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    Rename
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuGroup> -->
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Dark Mode</DropdownMenuLabel>
+                  <DropdownMenuItem>System</DropdownMenuItem>
+                  <DropdownMenuItem>Light</DropdownMenuItem>
+                  <DropdownMenuItem>Dark</DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
