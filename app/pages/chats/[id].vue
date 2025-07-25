@@ -1,11 +1,147 @@
 <template>
-  <div>id page</div>
+  <template v-if="data && status === 'success' && 'messages' in data">
+    <div class="w-full flex-[1] flex flex-col">
+      <div
+        v-if="data?.messages.length === 0"
+        class="flex flex-col items-center justify-center flex-[1]"
+      >
+        <h3 class="text-stone-400 text-4xl">How can I help you today?</h3>
+      </div>
+
+      <client-backend-provider
+        v-else
+        class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
+      >
+        <div v-for="(message, index) of data.messages" :key="index + message._doc._id">
+          <div v-if="message._doc.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
+            {{ message._doc.content }}
+          </div>
+
+          <div v-else class="px-2">{{ message._doc.content }}</div>
+        </div>
+        <Skeleton v-if="!canSend" class="w-full h-14"></Skeleton>
+      </client-backend-provider>
+      <div class="h-42 p-5 px-8">
+        <div
+          :class="
+            `w-full h-full bg-sidebar-accent border-[1px] rounded-2xl p-3 flex flex-col gap-2 duration-200 ` +
+            (focus ? 'border-accent-foreground border-2' : '')
+          "
+        >
+          <textarea
+            @focus="makeFocus"
+            @blur="unfocus"
+            class="border-0 outline-0 flex-[1] resize-none"
+            @keydown="handleKeydown"
+            v-model="textValue"
+            placeholder="Type your message here..."
+          />
+          <div class="flex items-center justify-between">
+            <!-- <div class="flex items-center justify-end gap-1"> -->
+            <Button size="icon" variant="outline" class="!w-8 !h-8">
+              <!-- 加号按钮 -->
+              <Icon name="ic:round-plus" class="text-lg" />
+            </Button>
+            <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend" @click="send">
+              <Icon name="ri:send-plane-2-line" class="text-lg" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template v-else>
+    <div class="w-full flex-[1] flex flex-col p-10">
+      <div class="flex flex-col flex-[1] gap-20">
+        <div class="w-full flex">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+        <div class="w-full flex justify-end">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+        <div class="w-full">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+      </div>
+      <Skeleton class="h-36 w-full"> </Skeleton>
+    </div>
+  </template>
 </template>
 
 <script lang="ts" setup>
+import Skeleton from "~/components/ui/skeleton/Skeleton.vue";
+import type { Chat, ChatInfo, UpdateResponse } from "~/types/chat";
+
+const route = useRoute();
+const focus = ref(false);
+const textValue = ref<string>("");
+const canSend = ref(true);
+
+const makeFocus = () => {
+  focus.value = true;
+};
+const unfocus = () => {
+  focus.value = false;
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    if (textValue.value) {
+      send();
+    }
+  }
+};
+
+const send = async () => {
+  if (canSend.value) {
+    canSend.value = false;
+    const text = textValue.value;
+    textValue.value = "";
+
+    data.value?.messages.push({
+      _doc: {
+        sender: "user",
+        content: text,
+        journalId: [],
+        timestamp: new Date().getTime(),
+        _id: "",
+      },
+    });
+    const returnValues = await $fetch<UpdateResponse>("/api/m/chats/" + route.params.id, {
+      method: "put",
+      body: {
+        message: text,
+      },
+    });
+    console.log(returnValues);
+    canSend.value = true;
+
+    // 处理数组
+    data.value?.messages.pop();
+    if (returnValues.originalChat.messages.length > 0) {
+      data.value?.messages.push({ _doc: returnValues.originalChat.messages.pop() as ChatInfo });
+    }
+    data.value?.messages.push({
+      _doc: {
+        sender: "llm",
+        content: returnValues.response,
+        journalId: [],
+        timestamp: "",
+        _id: "",
+      },
+    });
+  }
+};
+
+const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
+  method: "get",
+});
+
 definePageMeta({
   middleware: ["user"],
   layout: false,
+  title: "Chats",
 });
 </script>
 
