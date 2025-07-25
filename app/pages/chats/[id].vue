@@ -18,6 +18,9 @@
             @focus="makeFocus"
             @blur="unfocus"
             class="border-0 outline-0 flex-[1] resize-none"
+            @keydown="handleKeydown"
+            v-model="textValue"
+            placeholder="Type your message here..."
           />
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
@@ -25,7 +28,7 @@
               <!-- 加号按钮 -->
               <Icon name="ic:round-plus" class="text-lg" />
             </Button>
-            <Button size="icon" class="!w-[30px] !h-[30px]">
+            <Button size="icon" class="!w-[30px] !h-[30px]" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
           </div>
@@ -44,14 +47,25 @@
 import type { Chat } from "~/types/chat";
 
 const route = useRoute();
-
 const focus = ref(false);
+const textValue = ref<string>("");
 
 const makeFocus = () => {
   focus.value = true;
 };
 const unfocus = () => {
   focus.value = false;
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    send();
+  }
+};
+
+const send = () => {
+  console.log("消息发送");
 };
 
 const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
