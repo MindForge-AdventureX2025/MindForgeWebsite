@@ -17,20 +17,16 @@
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <!-- <DropdownMenuGroup>
-                  <DropdownMenuLabel>你好</DropdownMenuLabel>
-                  <DropdownMenuItem>
-                    Rename
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuGroup> -->
                 <DropdownMenuGroup>
-                  <DropdownMenuLabel>Dark Mode</DropdownMenuLabel>
-                  <DropdownMenuItem>System</DropdownMenuItem>
-                  <DropdownMenuItem>Light</DropdownMenuItem>
-                  <DropdownMenuItem>Dark</DropdownMenuItem>
+                  <DropdownMenuLabel>Edit</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <Icon name="wpf:rename" class="text-lg" />
+                    <span>Rename</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Icon name="material-symbols:delete-outline-sharp" class="text-lg" />
+                    <span>Delete</span>
+                  </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
