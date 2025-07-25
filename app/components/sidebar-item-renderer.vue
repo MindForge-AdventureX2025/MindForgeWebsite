@@ -70,8 +70,8 @@
                 <DialogFooter>
                   <DialogClose>
                     <Button variant="secondary">Cancel</Button>
+                    <Button variant="destructive" @click="deleteChat(index)"> Continue</Button>
                   </DialogClose>
-                  <Button variant="destructive"> Continue</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -94,6 +94,18 @@ const props = defineProps<{
 
 const setDialogType = (type: "rename" | "delete") => {
   dialogType.value = type;
+};
+
+const deleteChat = async (index: number) => {
+  // 先调用API 然后乐观更新
+  const item = props.data[index];
+  if (item && item.delete) {
+    props.data.splice(index, 1);
+
+    await $fetch(item.delete, {
+      method: "delete",
+    });
+  }
 };
 </script>
 

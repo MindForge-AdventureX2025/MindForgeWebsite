@@ -107,6 +107,7 @@ if (status.value === "success") {
       href: `/chats/${originalData._id}`,
       name: originalData.title,
       rename: `/api/chats/rename/${originalData._id}`,
+      // delete: `https://mindforgeserver.onrender.com/api/chats/delete/${originalData._id}`,
       delete: `/api/chats/delete/${originalData._id}`,
     };
   };
