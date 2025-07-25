@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
   routeRules: {
-    "/api/**": {
+    "/api/m/**": {
       proxy: `${process.env.NUXT_API_URL}api/**`,
       cors: true,
     },

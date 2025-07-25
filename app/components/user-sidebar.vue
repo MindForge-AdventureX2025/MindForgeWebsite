@@ -136,7 +136,7 @@ const {
   data: dataChat,
   refresh: refreshChat,
   status: statusChat,
-} = useFetch<ApiChatHistoryItem[]>("/api/chats/", {
+} = useFetch<ApiChatHistoryItem[]>("/api/m/chats/", {
   method: "get",
 });
 
@@ -144,7 +144,7 @@ const {
   data: dataJournal,
   refresh: refreshJournal,
   status: statusJournal,
-} = useFetch<ApiChatHistoryItem[]>("/api/journals/", {
+} = useFetch<ApiChatHistoryItem[]>("/api/m/journals/", {
   method: "get",
 });
 
@@ -163,9 +163,9 @@ watch(
           return {
             href: `/chats/${originalData._id}`,
             name: originalData.title,
-            rename: `/api/chats/rename/${originalData._id}`,
+            rename: `/api/m/chats/rename/${originalData._id}`,
             // delete: `https://mindforgeserver.onrender.com/api/chats/delete/${originalData._id}`,
-            delete: `/api/chats/delete/${originalData._id}`,
+            delete: `/api/m/chats/delete/${originalData._id}`,
           };
         };
 
@@ -210,8 +210,8 @@ watch(
           return {
             href: `/diaries/${originalData._id}`,
             name: originalData.title,
-            rename: `/api/journals/rename/${originalData._id}`,
-            delete: `/api/journals/delete/${originalData._id}`,
+            rename: `/api/m/journals/rename/${originalData._id}`,
+            delete: `/api/m/journals/delete/${originalData._id}`,
           };
         };
 
@@ -251,7 +251,7 @@ async function create() {
     try {
       const data = await $fetch<{
         _id: string;
-      }>("/api/chats", {
+      }>("/api/m/chats", {
         method: "post",
       });
 
@@ -269,7 +269,7 @@ async function create() {
     try {
       const data = await $fetch<{
         _id: string;
-      }>("/api/journals", {
+      }>("/api/m/journals", {
         method: "post",
         body: {
           title: "New Journal",
