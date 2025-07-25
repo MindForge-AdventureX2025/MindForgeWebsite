@@ -28,7 +28,7 @@
               <!-- 加号按钮 -->
               <Icon name="ic:round-plus" class="text-lg" />
             </Button>
-            <Button size="icon" class="!w-[30px] !h-[30px]" @click="send">
+            <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
           </div>
@@ -55,11 +55,13 @@
 </template>
 
 <script lang="ts" setup>
+import { useDebounceFn } from "@vueuse/core";
 import type { Chat } from "~/types/chat";
 
 const route = useRoute();
 const focus = ref(false);
 const textValue = ref<string>("");
+const canSend = ref(true);
 
 const makeFocus = () => {
   focus.value = true;
@@ -71,12 +73,25 @@ const unfocus = () => {
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
-    send();
+    if (textValue.value) {
+      send();
+    }
   }
 };
 
-const send = () => {
-  console.log("消息发送");
+const send = async () => {
+  if (canSend.value) {
+    canSend.value = false;
+    const data = await $fetch("/api/m/chats/" + route.params.id, {
+      method: "put",
+      body: {
+        message: textValue.value,
+      },
+    });
+    canSend.value = true;
+
+    console.log(data);
+  }
 };
 
 const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
