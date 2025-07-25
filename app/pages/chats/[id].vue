@@ -19,7 +19,7 @@
 
           <div v-else class="px-2">{{ message._doc.content }}</div>
         </div>
-        <Skeleton v-if="!canSend" class="w-full h-14"></Skeleton>
+        <Skeleton v-if="!canSend" class="w-full h-14"/>
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
@@ -29,12 +29,12 @@
           "
         >
           <textarea
+            v-model="textValue"
+            class="border-0 outline-0 flex-[1] resize-none"
+            placeholder="Type your message here..."
             @focus="makeFocus"
             @blur="unfocus"
-            class="border-0 outline-0 flex-[1] resize-none"
             @keydown="handleKeydown"
-            v-model="textValue"
-            placeholder="Type your message here..."
           />
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
@@ -54,16 +54,16 @@
     <div class="w-full flex-[1] flex flex-col p-10">
       <div class="flex flex-col flex-[1] gap-20">
         <div class="w-full flex">
-          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+          <Skeleton class="h-12 w-12 rounded-full"/>
         </div>
         <div class="w-full flex justify-end">
-          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+          <Skeleton class="h-12 w-12 rounded-full"/>
         </div>
         <div class="w-full">
-          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+          <Skeleton class="h-12 w-12 rounded-full"/>
         </div>
       </div>
-      <Skeleton class="h-36 w-full"> </Skeleton>
+      <Skeleton class="h-36 w-full"/>
     </div>
   </template>
 </template>

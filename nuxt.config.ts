@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
     "@clerk/nuxt",
+    "@nuxt/eslint",
   ],
   shadcn: {
     // prefix: "Shadcn",
