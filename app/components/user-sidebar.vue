@@ -46,7 +46,28 @@
               </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="diary"> Make changes to your account here. </TabsContent>
+          <TabsContent value="diary">
+            <SidebarItemRenderer
+              v-if="journalHistory.today.length > 0"
+              title="Today"
+              :data="journalHistory.today"
+            />
+            <SidebarItemRenderer
+              v-if="journalHistory.yesterday.length > 0"
+              title="Yesterday"
+              :data="journalHistory.yesterday"
+            />
+            <SidebarItemRenderer
+              v-if="journalHistory.thisMonth.length > 0"
+              title="This Month"
+              :data="journalHistory.thisMonth"
+            />
+            <SidebarItemRenderer
+              v-if="journalHistory.other.length > 0"
+              title="Others"
+              :data="journalHistory.other"
+            />
+          </TabsContent>
           <TabsContent value="chat">
             <SidebarItemRenderer
               v-if="chatHistory.today.length > 0"
@@ -96,28 +117,47 @@ const chatHistory = reactive<ChatHistory>({
   thisMonth: [],
   other: [],
 });
+const journalHistory = reactive<ChatHistory>({
+  today: [],
+  yesterday: [],
+  thisMonth: [],
+  other: [],
+});
 
 const route = useRoute();
 
 // route变化的时候refresh数据
 watch(route, async () => {
-  await refresh();
+  await refreshChat();
+  await refreshJournal();
 });
 
-const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/", {
+const {
+  data: dataChat,
+  refresh: refreshChat,
+  status: statusChat,
+} = useFetch<ApiChatHistoryItem[]>("/api/chats/", {
+  method: "get",
+});
+
+const {
+  data: dataJournal,
+  refresh: refreshJournal,
+  status: statusJournal,
+} = useFetch<ApiChatHistoryItem[]>("/api/journals/", {
   method: "get",
 });
 
 // data更新时自动做操作
 watch(
-  data,
+  dataChat,
   newData => {
     if (newData) {
-      if (status.value === "success") {
-        chatHistory.today.length = 0;
-        chatHistory.yesterday.length = 0;
-        chatHistory.thisMonth.length = 0;
-        chatHistory.other.length = 0;
+      if (statusChat.value === "success") {
+        chatHistory.today = [];
+        chatHistory.yesterday = [];
+        chatHistory.thisMonth = [];
+        chatHistory.other = [];
 
         const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
           return {
@@ -130,9 +170,9 @@ watch(
         };
 
         // 根据nonTitleUpdatedAt字段来排序 从新到旧
-        data.value?.sort((a, b) => b.nonTitleUpdatedAt - a.nonTitleUpdatedAt);
+        newData.sort((a, b) => b.nonTitleUpdatedAt - a.nonTitleUpdatedAt);
         // 将数据分组
-        data.value?.forEach(item => {
+        newData.forEach(item => {
           if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate()) {
             // 如果在同一天
             chatHistory.today.push(transfer(item));
@@ -147,11 +187,55 @@ watch(
             chatHistory.other.push(transfer(item));
           }
         });
-
-        console.log(JSON.stringify(chatHistory));
       } else {
         // 出现问题 有空再处理
-        console.log(data.value, status.value);
+        console.error(dataChat.value, statusChat.value);
+      }
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  dataJournal,
+  newData => {
+    if (newData) {
+      if (statusChat.value === "success") {
+        journalHistory.today = [];
+        journalHistory.yesterday = [];
+        journalHistory.thisMonth = [];
+        journalHistory.other = [];
+
+        const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
+          return {
+            href: `/diaries/${originalData._id}`,
+            name: originalData.title,
+            rename: `/api/journals/rename/${originalData._id}`,
+            delete: `/api/journals/delete/${originalData._id}`,
+          };
+        };
+
+        // 根据nonTitleUpdatedAt字段来排序 从新到旧
+        newData.sort((a, b) => b.nonTitleUpdatedAt - a.nonTitleUpdatedAt);
+        // 将数据分组
+        newData.forEach(item => {
+          if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate()) {
+            // 如果在同一天
+            journalHistory.today.push(transfer(item));
+          } else if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate() - 1) {
+            // 如果是昨天
+            journalHistory.yesterday.push(transfer(item));
+          } else if (new Date(item.nonTitleUpdatedAt).getMonth() === new Date().getMonth()) {
+            // 如果是更早的
+            journalHistory.thisMonth.push(transfer(item));
+          } else {
+            // 如果是其他时间
+            journalHistory.other.push(transfer(item));
+          }
+        });
+      } else {
+        // 出现问题 有空再处理
+        console.error(dataChat.value, statusChat.value);
       }
     }
   },
@@ -173,7 +257,28 @@ async function create() {
 
       if (data && data._id) {
         // 成功创建了新的聊天
-        await refresh();
+        await refreshChat();
+        await navigateTo(`/chats/${data._id}`, {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  } else {
+    try {
+      const data = await $fetch<{
+        _id: string;
+      }>("/api/journals", {
+        method: "post",
+        body: {
+          title: "New Journal",
+        },
+      });
+
+      if (data && data._id) {
+        // 成功创建了新的聊天
+        await refreshChat();
         await navigateTo(`/chats/${data._id}`, {
           replace: true,
         });
