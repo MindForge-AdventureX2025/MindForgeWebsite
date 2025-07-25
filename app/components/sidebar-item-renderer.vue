@@ -4,7 +4,7 @@
     <SidebarGroupContent>
       <SidebarMenu>
         <SidebarMenuItem v-for="(item, index) of props.data" :key="index + item.href">
-          <SidebarMenuButton class="flex justify-between items-center pl-4">
+          <SidebarMenuButton class="flex justify-between items-center">
             <NuxtLink :to="item.href" class="flex-1 whitespace-nowrap overflow-hidden">
               {{ item.name }}
             </NuxtLink>
