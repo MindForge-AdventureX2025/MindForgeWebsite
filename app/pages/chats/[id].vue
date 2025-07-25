@@ -37,8 +37,19 @@
     </div>
   </template>
   <template v-else>
-    <div class="w-full h-screen flex items-center justify-center">
-      <p>Loading chat...</p>
+    <div class="w-full flex-[1] flex flex-col p-10">
+      <div class="flex flex-col flex-[1] gap-20">
+        <div class="w-full flex">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+        <div class="w-full flex justify-end">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+        <div class="w-full">
+          <Skeleton class="h-12 w-12 rounded-full"> </Skeleton>
+        </div>
+      </div>
+      <Skeleton class="h-36 w-full"> </Skeleton>
     </div>
   </template>
 </template>
