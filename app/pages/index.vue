@@ -5,7 +5,7 @@ const { isLoaded, isSignedIn } = useAuth();
 
 console.log(isLoaded, isSignedIn);
 if (isLoaded.value && isSignedIn.value) {
-  navigateTo("/home");
+  await navigateTo("/home");
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <ClientOnly>aa </ClientOnly>
+  <div>id page</div>
 </template>
 
 <script lang="ts" setup>

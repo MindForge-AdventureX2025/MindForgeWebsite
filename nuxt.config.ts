@@ -30,12 +30,8 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
   routeRules: {
-    "/api/journals": {
-      proxy: "https://mindforgeserver.onrender.com/api/journals",
-      cors: true,
-    },
-    "/api/chats": {
-      proxy: "https://mindforgeserver.onrender.com/api/chats",
+    "/api/**": {
+      proxy: `${process.env.NUXT_API_URL}api/**`,
       cors: true,
     },
   },
