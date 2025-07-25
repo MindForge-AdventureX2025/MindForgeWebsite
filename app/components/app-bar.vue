@@ -1,8 +1,6 @@
 <template>
   <div class="w-full h-14 border-b-2 flex items-center justify-between px-5">
-    <div>
-      <h3 class="text-3xl font-bold font-mono">MindForge</h3>
-    </div>
+    <AppBadge />
     <div>
       <!-- Navigation Group -->
       <NavigationMenu>
