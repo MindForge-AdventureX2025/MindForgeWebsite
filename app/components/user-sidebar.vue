@@ -72,7 +72,7 @@
         </Tabs>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton @click="post" class="flex items-center cursor-pointer">
+        <SidebarMenuButton @click="create" class="flex items-center cursor-pointer">
           <Icon name="material-symbols:add" class="text-xl" />
           <span v-if="open">New {{ tabs.charAt(0).toUpperCase() + tabs.slice(1) }}</span>
         </SidebarMenuButton>
@@ -97,51 +97,90 @@ const chatHistory = reactive<ChatHistory>({
   other: [],
 });
 
+const route = useRoute();
+
+// route变化的时候refresh数据
+watch(route, async () => {
+  await refresh();
+});
+
 const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/", {
   method: "get",
 });
 
-if (status.value === "success") {
-  const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
-    return {
-      href: `/chats/${originalData._id}`,
-      name: originalData.title,
-      rename: `/api/chats/rename/${originalData._id}`,
-      // delete: `https://mindforgeserver.onrender.com/api/chats/delete/${originalData._id}`,
-      delete: `/api/chats/delete/${originalData._id}`,
-    };
-  };
+// data更新时自动做操作
+watch(
+  data,
+  newData => {
+    if (newData) {
+      if (status.value === "success") {
+        chatHistory.today.length = 0;
+        chatHistory.yesterday.length = 0;
+        chatHistory.thisMonth.length = 0;
+        chatHistory.other.length = 0;
 
-  data.value?.forEach(item => {
-    if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate()) {
-      // 如果在同一天
-      chatHistory.today.push(transfer(item));
-    } else if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate() - 1) {
-      // 如果是昨天
-      chatHistory.yesterday.push(transfer(item));
-    } else if (new Date(item.nonTitleUpdatedAt).getMonth() === new Date().getMonth()) {
-      // 如果是更早的
-      chatHistory.thisMonth.push(transfer(item));
-    } else {
-      // 如果是其他时间
-      chatHistory.other.push(transfer(item));
+        const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
+          return {
+            href: `/chats/${originalData._id}`,
+            name: originalData.title,
+            rename: `/api/chats/rename/${originalData._id}`,
+            // delete: `https://mindforgeserver.onrender.com/api/chats/delete/${originalData._id}`,
+            delete: `/api/chats/delete/${originalData._id}`,
+          };
+        };
+
+        // 根据nonTitleUpdatedAt字段来排序 从新到旧
+        data.value?.sort((a, b) => b.nonTitleUpdatedAt - a.nonTitleUpdatedAt);
+        // 将数据分组
+        data.value?.forEach(item => {
+          if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate()) {
+            // 如果在同一天
+            chatHistory.today.push(transfer(item));
+          } else if (new Date(item.nonTitleUpdatedAt).getDate() === new Date().getDate() - 1) {
+            // 如果是昨天
+            chatHistory.yesterday.push(transfer(item));
+          } else if (new Date(item.nonTitleUpdatedAt).getMonth() === new Date().getMonth()) {
+            // 如果是更早的
+            chatHistory.thisMonth.push(transfer(item));
+          } else {
+            // 如果是其他时间
+            chatHistory.other.push(transfer(item));
+          }
+        });
+
+        console.log(JSON.stringify(chatHistory));
+      } else {
+        // 出现问题 有空再处理
+        console.log(data.value, status.value);
+      }
     }
-  });
+  },
+  { immediate: true }
+);
 
-  console.log(JSON.stringify(chatHistory));
-} else {
-  // 出现问题 有空再处理
-  console.log(data.value, status.value);
-}
+async function create() {
+  if (tabs.value === "chat") {
+    // 这里为什么不用乐观更新呢?
+    // 因为我们需要id 然后用户才能进入界面
+    // 所以我们可以用load动画配合处理 先发请求 发完请求就href到新的
 
-async function post() {
-  try {
-    const data = await $fetch("/api/chats", {
-      method: "post",
-    });
-    console.log("Data fetched:", data);
-  } catch (error) {
-    console.error("Error fetching data:", error);
+    try {
+      const data = await $fetch<{
+        _id: string;
+      }>("/api/chats", {
+        method: "post",
+      });
+
+      if (data && data._id) {
+        // 成功创建了新的聊天
+        await refresh();
+        await navigateTo(`/chats/${data._id}`, {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 }
 
