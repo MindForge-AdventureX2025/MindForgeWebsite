@@ -104,8 +104,10 @@ const { data, refresh, status } = useFetch<ApiChatHistoryItem[]>("/api/chats/", 
 if (status.value === "success") {
   const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
     return {
-      href: originalData._id,
+      href: `/chats/${originalData._id}`,
       name: originalData.title,
+      rename: `/api/chats/rename/${originalData._id}`,
+      delete: `/api/chats/delete/${originalData._id}`,
     };
   };
 

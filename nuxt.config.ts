@@ -30,16 +30,8 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
   routeRules: {
-    "/api/journals": {
-      proxy: `${process.env.NUXT_API_URL}api/journals`,
-      cors: true,
-    },
-    "/api/chats": {
-      proxy: `${process.env.NUXT_API_URL}api/chats`,
-      cors: true,
-    },
-    "/api/chats/": {
-      proxy: `${process.env.NUXT_API_URL}api/chats/`,
+    "/api/**": {
+      proxy: `${process.env.NUXT_API_URL}api/**`,
       cors: true,
     },
   },
