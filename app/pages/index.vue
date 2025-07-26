@@ -99,6 +99,47 @@ if (isLoaded.value && isSignedIn.value) {
             <span>Me.bot</span>
           </NuxtLink>.
         </TableCaption>
+
+        <TableHeader>
+          <TableRow>
+            <TableHead>
+              Things
+            </TableHead>
+            <TableHead class="font-black text-base">
+              MindForge
+            </TableHead>
+            <TableHead>Second Me</TableHead>
+            <TableHead>Me.bot</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+           <TableRow>
+            <TableCell>Safe Password Storage</TableCell>
+            <TableCell class="font-bold " >✅ Use One of Best Account System</TableCell>
+            <TableCell>✅</TableCell>
+            <TableCell>✅</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Keep Journals
+            </TableCell>
+            <TableCell class="font-bold " >✅ Smart Markdown Journals</TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Special Data Storage</TableCell>
+            <TableCell class="font-bold " >✅ Save Your Journals & Chats</TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>All Agent Public</TableCell>
+            <TableCell class="font-bold " >✅ Users know what they do</TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
     </div>
   </div>
