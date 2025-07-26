@@ -21,7 +21,7 @@ const colorMode = useColorMode()
     <div class="flex-1 p-2 font-mono border-[1px] md:rounded-l-lg md:rounded-r-none rounded-t-lg">
       <textarea v-model="model" class="w-full h-full overflow-auto outline-none resize-none" placeholder="You can say something there..." @input="handleInput" />
     </div>
-    <div :class="`flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-l-none md:rounded-r-lg overflow-auto ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="html" />
+    <div :class="`flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-l-none md:rounded-r-lg overflow-auto ${colorMode.value === 'dark' ? 'markdown-body markdown-body-background' : 'markdown-body-light markdown-body-light-background'}`" v-html="html" />
   </div>
 </template>
 

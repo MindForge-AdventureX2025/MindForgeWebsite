@@ -131,7 +131,7 @@ function getMarkdown(originalValue: string) {
   const md = mdi()
   md.renderer.rules.hashtag = (tokens: any[], idx: number) => {
     const tag = tokens[idx].content.replace('#', '')
-    return `<span class="badgeTags">
+    return `<span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90">
               ${tag}
             </span>`
   }
