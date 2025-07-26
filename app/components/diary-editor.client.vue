@@ -15,15 +15,12 @@ function handleInput(event: Event) {
 </script>
 
 <template>
-  <div class="hidden md:flex flex-row relative box-border py-5" :style="{ height }">
+  <div class="flex flex-col md:flex-row relative box-border py-5" :style="{ height }">
     <!-- 电脑端应用 -->
-    <div class="flex-1 p-2 font-mono border-[1px] rounded-l-lg">
+    <div class="flex-1 p-2 font-mono border-[1px] md:rounded-l-lg rounded-t-lg">
       <textarea v-model="model" class="w-full h-full overflow-auto outline-none resize-none" placeholder="You can say something there..." @input="handleInput" />
     </div>
-    <div class="markdown-body flex-1 p-2 border-[1px] border-l-0 rounded-r-lg overflow-auto" v-html="html" />
-  </div>
-  <div class="md:hidden flex ">
-    <!-- 移动端应用 -->
+    <div class="markdown-body flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-r-lg overflow-auto" v-html="html" />
   </div>
 </template>
 
