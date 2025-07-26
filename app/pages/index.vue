@@ -49,7 +49,7 @@ if (isLoaded.value && isSignedIn.value) {
               </Button>
             </SignInButton>
             <Button class="mt-1" variant="secondary" @click="whyUs">
-              {{ $t("whuUs") }}
+              {{ $t("whyUs") }}
             </Button>
           </div>
         </BlurReveal>
