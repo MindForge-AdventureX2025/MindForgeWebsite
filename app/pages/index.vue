@@ -18,14 +18,14 @@ if (isLoaded.value && isSignedIn.value) {
     refresh
   />
   <div class="w-full sm:h-[70vh] h-[90vh] flex sm:px-10 px-1">
-    <div class="justify-center items-center flex flex-col flex-1">
+    <div class="justify-center items-start px-8 flex flex-col">
       <ClientOnly>
         <BlurReveal
           :delay="0.2"
           :duration="0.75"
           class="flex flex-col gap-4 sm:items-start items-center"
         >
-          <div class="text-5xl sm:text-6xl font-bold" as-child>
+          <div class="text-5xl sm:text-6xl font-bold font-serif" as-child>
             <span style="color: rgb(131, 179, 32)">M</span>
             <span style="color: rgb(47, 195, 106)">i</span>
             <span style="color: rgb(42, 169, 210)">n</span>
@@ -43,20 +43,45 @@ if (isLoaded.value && isSignedIn.value) {
           <div class="flex gap-2">
             <SignInButton as-child>
               <Button class="cursor-pointer mt-1">
-                Getting Start
+                Getting Started
               </Button>
             </SignInButton>
             <Button class="mt-1" variant="secondary" as-child>
               <NuxtLink href="/">
-                Why US
+                Why us
               </NuxtLink>
             </Button>
           </div>
         </BlurReveal>
       </ClientOnly>
     </div>
-    <div class="justify-center items-center flex-col flex-1 sm:flex hidden">
-      <!-- <IndexDrillCanvas /> -->
+    <div class="justify-center items-center flex-row flex-1 sm:flex hidden">
+      <img src="/website.png" class="max-h-[405px]">
+      <img src="/mobile.jpg" class="hidden xl:inline max-h-[405px]">
+    </div>
+  </div>
+  <div class="sm:px-20 px-5 flex flex-col gap-10">
+    <div class="flex sm:h-[calc(100vh_-_70vh_-_57px_-_20px)] h-[50vh] sm:flex-row flex-col gap-5">
+      <Card class="flex-1 flex flex-col items-center justify-center">
+        <CardContent class="px-10 !pb-0">
+          <div class="text-xl font-bold">
+            What is MindForge? 🤔
+          </div>
+          <div class="text-sm text-zinc-500">
+            Your evolving digital twin. Beyond data, it gets your emotions, keeps your thoughts, and grows with you. More than a journal—it's your reflective journey.
+          </div>
+        </CardContent>
+      </Card>
+      <Card class="flex-1 flex flex-col items-center justify-center">
+        <CardContent class="px-10 !pb-0">
+          <div class="text-xl font-bold">
+            How Does It Grow With You? 🌱
+          </div>
+          <div class="text-sm text-zinc-500">
+            Multi-agent AI listens & learns. MindForge becomes your emotional mirror: noticing patterns, supporting struggles, reflecting your path
+          </div>
+        </CardContent>
+      </Card>
     </div>
   </div>
 </template>
