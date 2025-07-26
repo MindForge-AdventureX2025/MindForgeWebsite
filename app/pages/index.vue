@@ -83,6 +83,24 @@ if (isLoaded.value && isSignedIn.value) {
         </CardContent>
       </Card>
     </div>
+
+    <div class="px-5 flex flex-col gap-10">
+      <!-- Why us -->
+      <h1 class="text-3xl font-bold">
+        Why us?
+      </h1>
+
+      <Table>
+        <TableCaption>
+          Our special points vs
+          <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://secondme.io/">
+            <span>Second Me</span>
+          </NuxtLink> & <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://me.bot/">
+            <span>Me.bot</span>
+          </NuxtLink>.
+        </TableCaption>
+      </Table>
+    </div>
   </div>
 </template>
 
