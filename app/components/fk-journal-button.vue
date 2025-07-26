@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import type { ApiChatHistoryItem } from '~/types/chatHistory'
 
+const props = defineProps<{
+  disabled: boolean
+}>()
+
 const emit = defineEmits(['submit'])
+
 const renderingData = ref<ApiChatHistoryItem[]>([])
 async function clickHandle() {
   const data = await $fetch<ApiChatHistoryItem[]>('/api/m/journals/', {
@@ -34,7 +39,7 @@ function submit() {
 
 <template>
   <Dialog>
-    <DialogTrigger>
+    <DialogTrigger :disabled="props.disabled">
       <Button size="icon" class="!w-[30px] !h-[30px]" variant="outline" @click="clickHandle">
         <Icon name="ic:round-plus" class="text-lg" />
       </Button>

@@ -4,7 +4,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 import mdi from 'markdown-it'
 import { toast } from 'vue-sonner'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
-import { formatXmlTags, registerError, registerHashTag, registerStart, registerThinking } from '~/lib/markdown'
+import { formatXmlTags, registerHashTag } from '~/lib/markdown'
 
 const route = useRoute()
 const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
@@ -15,6 +15,18 @@ const textValue = ref<string>('')
 const canSend = ref(true)
 const colorMode = useColorMode()
 const showingMessages = reactive<ChatInfo[]>([])
+const journal = reactive<{
+  journalIds: string[]
+  selected: string
+}>({
+  journalIds: [],
+  selected: '',
+})
+
+function journalUpdater(payload: { id: string, text: string }) {
+  journal.journalIds = [payload.id]
+  journal.selected = payload.text
+}
 
 watch(data, (newValue) => {
   showingMessages.length = 0
@@ -78,12 +90,22 @@ async function send() {
       },
     )
 
+    const journalData = { ...journal }
+
+    journal.journalIds = []
+    journal.selected = ''
     await fetchEventSource(`/api/m/chats/${route.params.id}`, {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-      }),
+      body: journalData.journalIds && journalData.selected
+        ? JSON.stringify({
+            // 这里是选过的
+            message: text,
+            ...journalData,
+          })
+        : JSON.stringify({
+            message: text,
+          }),
       onmessage(ev) {
         if (ev.event === 'end') {
           returnValues = JSON.parse(ev.data)
@@ -189,7 +211,12 @@ function getMarkdown(originalValue: string) {
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
 
-            <FkJournalButton />
+            <div class="flex items-center">
+              <FkJournalButton :disabled="!!(journal.journalIds && journal.selected)" @submit="journalUpdater" />
+              <Badge v-if="!!(journal.journalIds && journal.selected)">
+                Journal Added
+              </Badge>
+            </div>
 
             <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
