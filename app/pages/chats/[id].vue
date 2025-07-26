@@ -40,7 +40,7 @@ function handleKeydown(event: KeyboardEvent) {
 }
 
 async function send() {
-  if (canSend.value) {
+  if (canSend.value && textValue.value.length > 0) {
     canSend.value = false
     const text = textValue.value
     textValue.value = ''
@@ -159,7 +159,7 @@ definePageMeta({
               <!-- 加号按钮 -->
               <Icon name="ic:round-plus" class="text-lg" />
             </Button>
-            <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend" @click="send">
+            <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
           </div>
