@@ -7,6 +7,7 @@ import SidebarHeader from './ui/sidebar/SidebarHeader.vue'
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar()
 const tabs = ref<'journal' | 'chat'>('journal')
+const colorMode = useColorMode()
 const chatHistory = reactive<History>({
   today: [],
   yesterday: [],
@@ -248,7 +249,9 @@ bus.on((_event, payload) => {
         <div
           :class="`flex items-center flex-row${open ? ' justify-between' : ' justify-center'}`"
         >
-          <span v-if="open">Head</span>
+          <span v-if="open">
+            <AppIcon />
+          </span>
           <Button variant="outline" size="icon" class="!w-8 !h-8 sm:flex hidden">
             <Icon v-if="open" name="ri:menu-fold-line" class="text-xl" @click="changeOpen" />
             <Icon v-else name="ri:menu-fold-2-line" class="text-xl" @click="changeOpen" />
@@ -262,13 +265,35 @@ bus.on((_event, payload) => {
             <Icon v-if="openMobile" name="ri:menu-fold-line" class="text-xl" />
           </Button>
         </div>
-        <Button v-if="open" class="w-full" variant="ghost">
-          <Icon name="material-symbols:settings" class="text-xl" />
-          <span>Settings</span>
-        </Button>
-        <Button v-else variant="ghost" size="icon" class="!w-8 !h-8">
-          <Icon name="material-symbols:settings" class="text-xl" />
-        </Button>
+        <ClientOnly>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button v-if="open" class="w-full" variant="ghost">
+                <Icon name="icon-park-solid:dark-mode" class="text-xl" />
+                <span>Set Dark Mode</span>
+              </Button>
+              <Button v-else variant="ghost" size="icon" class="!w-8 !h-8">
+                <Icon name="material-symbols:settings" class="text-xl" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent class="w-40">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel class="text-zinc-400">
+                  Dark Mode
+                </DropdownMenuLabel>
+                <DropdownMenuItem @click="colorMode.preference = 'system'">
+                  System
+                </DropdownMenuItem>
+                <DropdownMenuItem @click="colorMode.preference = 'light'">
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem @click="colorMode.preference = 'dark'">
+                  Dark
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ClientOnly>
       </SidebarHeader>
 
       <SidebarContent>
