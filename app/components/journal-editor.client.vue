@@ -7,7 +7,7 @@ const height = computed(() => `${document.body.offsetHeight - 129}px`)
 
 const model = defineModel<string>()
 const md = mdi()
-const html = computed(() => md.render(model.value || '*Your diary will appear here.*'))
+const html = computed(() => md.render(model.value || '*Your journal will appear here.*'))
 
 function handleInput(event: Event) {
   emit('input', event)

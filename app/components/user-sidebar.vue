@@ -6,7 +6,7 @@ import { useSidebar } from './ui/sidebar'
 import SidebarHeader from './ui/sidebar/SidebarHeader.vue'
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar()
-const tabs = ref<'diary' | 'chat'>('diary')
+const tabs = ref<'journal' | 'chat'>('journal')
 const chatHistory = reactive<History>({
   today: [],
   yesterday: [],
@@ -109,7 +109,7 @@ watch(
 
         const transfer = (originalData: ApiChatHistoryItem): RenderingItem => {
           return {
-            href: `/diaries/${originalData._id}`,
+            href: `/journals/${originalData._id}`,
             name: originalData.title,
             rename: `/api/m/journals/rename/${originalData._id}`,
             delete: `/api/m/journals/delete/${originalData._id}`,
@@ -187,7 +187,7 @@ async function create() {
       if (data && data._id) {
         // 成功创建了新的聊天
         await refreshChat()
-        await navigateTo(`/diaries/${data._id}`, {
+        await navigateTo(`/journals/${data._id}`, {
           replace: true,
         })
       }
@@ -275,13 +275,13 @@ bus.on((_event, payload) => {
         <Tabs
           v-if="(!isMobile && open) || isMobile"
           v-model:model-value="tabs"
-          default-value="diary"
+          default-value="journal"
         >
           <div class="px-2 w-full">
             <TabsList class="w-full">
-              <TabsTrigger value="diary">
+              <TabsTrigger value="journal">
                 <Icon name="system-uicons:notebook" class="text-xl" />
-                <span v-if="open">Diaries</span>
+                <span v-if="open">Journals</span>
               </TabsTrigger>
               <TabsTrigger value="chat">
                 <Icon name="humbleicons:chats" class="text-xl" />
@@ -289,7 +289,7 @@ bus.on((_event, payload) => {
               </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="diary">
+          <TabsContent value="journal">
             <SidebarItemRenderer
               v-if="journalHistory.today.length > 0"
               title="Today"

@@ -4,7 +4,7 @@ import { useDebounceFn, useEventBus } from '@vueuse/core'
 definePageMeta({
   middleware: ['user'],
   layout: false,
-  title: 'Diaries',
+  title: 'Journals',
 })
 
 const route = useRoute()
@@ -56,7 +56,7 @@ const updateContent = useDebounceFn(async () => {
     <!-- eslint-disable-next-line vue/no-lone-template -->
     <template v-if="status === 'success' && data ">
       <input v-model="showingData.title" class="duration-150 w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
-      <DiaryEditor v-model="showingData.content" @input="updateContent" />
+      <JournalEditor v-model="showingData.content" @input="updateContent" />
     </template>
 
     <div v-else class="flex-col flex-[1] flex gap-8">
