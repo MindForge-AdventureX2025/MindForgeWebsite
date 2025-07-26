@@ -41,8 +41,16 @@ const updateTitle = useDebounceFn(async () => {
 </script>
 
 <template>
-  <div class="p-14">
-    <input v-model="showingData.title" class="w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
+  <div class="p-8 py-6 sm:p-14 sm:py-10 flex flex-col flex-[1] ">
+    <!-- eslint-disable-next-line vue/no-lone-template -->
+    <template v-if="status === 'success' && data ">
+      <input v-model="showingData.title" class="w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
+    </template>
+
+    <div v-else class="flex-col flex-[1] flex gap-8">
+      <Skeleton class="w-full h-14" />
+      <Skeleton class="w-full flex-1" />
+    </div>
   </div>
 </template>
 
