@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Chat, ChatInfo, UpdateResponse } from '~/types/chat'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
+import mdi from 'markdown-it'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 
 const route = useRoute()
@@ -77,11 +78,17 @@ async function send() {
         message: text,
       }),
       onmessage(ev) {
-        if (showingMessages[showingMessages.length - 1]) {
-          (showingMessages[showingMessages.length - 1] as ChatInfo).content += JSON.parse(ev.data).chunk
-        }
         if (ev.event === 'end') {
           returnValues = JSON.parse(ev.data)
+          return
+        }
+        if ('chunk' in JSON.parse(ev.data)) {
+          if (showingMessages[showingMessages.length - 1]) {
+            (showingMessages[showingMessages.length - 1] as ChatInfo).content += JSON.parse(ev.data).chunk
+          }
+        }
+        else {
+          console.warn(`UnExpectData: ${ev.data}`)
         }
       },
       onclose() {
@@ -109,6 +116,39 @@ definePageMeta({
   layout: false,
   title: 'Chats',
 })
+
+function getMarkdown(originalValue: string) {
+  const md = mdi()
+  md.renderer.rules.hashtag = (tokens: any[], idx: number) => {
+    const tag = tokens[idx].content.replace('#', '')
+    return `<span class="badgeTags">
+              ${tag}
+            </span>`
+  }
+
+  md.inline.ruler.after('link', 'hashtag', (state, silent) => {
+    // 匹配 # 开头的标签（非标题）
+
+    // eslint-disable-next-line unicorn/escape-case, regexp/no-unused-capturing-group, regexp/prefer-w, regexp/use-ignore-case
+    const pattern = /^#([a-zA-Z0-9_\-\u4e00-\u9fa5]+)/
+    const match = pattern.exec(state.src.slice(state.pos))
+
+    if (!match)
+      return false
+    if (silent)
+      return true
+
+    // 创建自定义 token
+    const token = state.push('hashtag', '', 0)
+    token.content = match[0] // 保存原始文本如 "#some-thing"
+    token.markup = '#'
+
+    // 移动解析位置
+    state.pos += match[0].length
+    return true
+  })
+  return md.render(originalValue)
+}
 </script>
 
 <template>
@@ -132,9 +172,10 @@ definePageMeta({
             {{ message.content }}
           </div>
 
-          <div v-else class="px-2 leading-7">
+          <div v-else class="px-2 leading-7 markdown" v-html="getMarkdown(message.content)" />
+          <!-- <div v-else class="px-2 leading-7">
             {{ message.content }}
-          </div>
+          </div> -->
         </div>
         <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
       </client-backend-provider>
