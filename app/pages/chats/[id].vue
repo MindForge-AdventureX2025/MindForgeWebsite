@@ -129,7 +129,6 @@ definePageMeta({
 })
 
 function getMarkdown(originalValue: string) {
-  originalValue += ' \n \n> 你好 你是人吗 \n \n # 你好你好'
   const md = mdi()
   md.renderer.rules.hashtag = (tokens: any[], idx: number) => {
     const tag = tokens[idx].content.replace('#', '')
@@ -171,7 +170,7 @@ function getMarkdown(originalValue: string) {
         class="flex flex-col items-center justify-center flex-[1]"
       >
         <h3 class="text-stone-400 text-4xl">
-          How can I help you today?
+          How's it going?
         </h3>
       </div>
 
