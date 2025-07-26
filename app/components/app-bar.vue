@@ -1,25 +1,22 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import whyUs from '~/lib/whyUs'
+</script>
 
 <template>
   <div class="w-full h-14 flex items-center justify-between px-5">
-    <div class="flex items-center gap-2">
-      <img src="/logo.png" class="w-9 h-9">
-      <h3 class="text-2xl font-bold font-serif">
-        MindForge
-      </h3>
-    </div>
+    <AppIcon />
     <div>
       <!-- Navigation Group -->
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/docs/introduction">
-              Why US
+            <NavigationMenuLink @click="whyUs">
+              Why Us
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/docs/introduction">
-              ...
+            <NavigationMenuLink href="/docs/">
+              Special Points
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import whyUs from '~/lib/whyUs'
+
 const isDark = computed(() => useColorMode().value === 'dark')
 
 const { isLoaded, isSignedIn } = useAuth()
@@ -46,10 +48,8 @@ if (isLoaded.value && isSignedIn.value) {
                 Getting Started
               </Button>
             </SignInButton>
-            <Button class="mt-1" variant="secondary" as-child>
-              <NuxtLink href="/">
-                Why us
-              </NuxtLink>
+            <Button class="mt-1" variant="secondary" @click="whyUs">
+              Why Us
             </Button>
           </div>
         </BlurReveal>
@@ -83,6 +83,74 @@ if (isLoaded.value && isSignedIn.value) {
         </CardContent>
       </Card>
     </div>
+
+    <div class="flex flex-col gap-10">
+      <!-- Why us -->
+      <h1 class="px-5 text-3xl font-bold">
+        Why us?
+      </h1>
+
+      <Table>
+        <TableCaption>
+          Our special points vs
+          <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://secondme.io/">
+            <span>Second Me</span>
+          </NuxtLink> & <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://me.bot/">
+            <span>Me.bot</span>
+          </NuxtLink>.
+        </TableCaption>
+
+        <TableHeader>
+          <TableRow>
+            <TableHead>
+              Things
+            </TableHead>
+            <TableHead class="font-black text-base">
+              MindForge
+            </TableHead>
+            <TableHead>Second Me</TableHead>
+            <TableHead>Me.bot</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Safe Accounts</TableCell>
+            <TableCell class="font-bold ">
+              ✅ <span class="hidden md:inline">Use One of Best Account System</span>
+            </TableCell>
+            <TableCell>✅</TableCell>
+            <TableCell>✅</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              Keep Journals
+            </TableCell>
+            <TableCell class="font-bold ">
+              ✅ <span class="hidden md:inline">Smart Markdown Journals</span>
+            </TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Special Storage</TableCell>
+            <TableCell class="font-bold ">
+              ✅ <span class="hidden md:inline">Save Your Journals & Chats</span>
+            </TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Public Agent</TableCell>
+            <TableCell class="font-bold ">
+              ✅ <span class="hidden md:inline">Users know what they do</span>
+            </TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </div>
+    <AppFooter />
   </div>
 </template>
 
