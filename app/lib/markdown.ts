@@ -32,6 +32,26 @@ export function registerHashTag(md: MarkdownIt) {
 }
 
 export function registerStart(md: MarkdownIt) {
+  md.inline.ruler.after('link', 'start_tag', (state, silent) => {
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    const pattern = /^<start>\s*([\s\S]*?)\s*<\/start>/
+    const match = pattern.exec(state.src.slice(state.pos))
+
+    if (!match)
+      return false
+    if (silent)
+      return true
+
+    // 创建自定义 token
+    const token = state.push('start_tag', '', 0)
+    token.content = match[1] ? match[1] : ''
+    token.markup = '<start>'
+
+    // 移动解析位置
+    state.pos += match[0].length
+    return true
+  })
+
   md.renderer.rules.start_tag = (tokens: any[], idx: number) => {
     const content = tokens[idx].content
     return `<div class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90" variant="secondary">${content}</div>`
@@ -39,6 +59,26 @@ export function registerStart(md: MarkdownIt) {
 }
 
 export function registerThinking(md: MarkdownIt) {
+  md.inline.ruler.after('link', 'thinking_tag', (state, silent) => {
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    const pattern = /^<thinking>\s*([\s\S]*?)\s*<\/thinking>/
+    const match = pattern.exec(state.src.slice(state.pos))
+
+    if (!match)
+      return false
+    if (silent)
+      return true
+
+    // 创建自定义 token
+    const token = state.push('thinking_tag', '', 0)
+    token.content = match[1] ? match[1] : ''
+    token.markup = '<thinking>'
+
+    // 移动解析位置
+    state.pos += match[0].length
+    return true
+  })
+
   md.renderer.rules.thinking_tag = (tokens: any[], idx: number) => {
     const content = tokens[idx].content
     return `<blockquote>${content}</blockquote>`
@@ -46,6 +86,26 @@ export function registerThinking(md: MarkdownIt) {
 }
 
 export function registerError(md: MarkdownIt) {
+  md.inline.ruler.after('link', 'error_tag', (state, silent) => {
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    const pattern = /^<error>\s*([\s\S]*?)\s*<\/error>/
+    const match = pattern.exec(state.src.slice(state.pos))
+
+    if (!match)
+      return false
+    if (silent)
+      return true
+
+    // 创建自定义 token
+    const token = state.push('error_tag', '', 0)
+    token.content = match[1] ? match[1] : ''
+    token.markup = '<error>'
+
+    // 移动解析位置
+    state.pos += match[0].length
+    return true
+  })
+
   md.renderer.rules.error_tag = (tokens: any[], idx: number) => {
     const content = tokens[idx].content
     return `<div class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-destructive text-white [a&amp;]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60" variant="destructive">${content}</div>`

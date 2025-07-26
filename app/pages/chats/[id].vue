@@ -4,7 +4,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 import mdi from 'markdown-it'
 import { toast } from 'vue-sonner'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
-import { formatXmlTags, registerHashTag } from '~/lib/markdown'
+import { formatXmlTags, registerError, registerHashTag, registerStart, registerThinking } from '~/lib/markdown'
 
 const route = useRoute()
 const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
@@ -157,7 +157,10 @@ function getMarkdown(originalValue: string) {
   const formatted = formatXmlTags(originalValue, ['start', 'thinking', 'error'])
   const md = mdi()
 
+  registerStart(md)
   registerHashTag(md)
+  registerThinking(md)
+  registerError(md)
 
   return md.render(formatted)
 }
