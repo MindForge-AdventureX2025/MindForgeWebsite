@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { Chat, ChatInfo, UpdateResponse } from '~/types/chat'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 
 const route = useRoute()
-const { data, refresh, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
+const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
   method: 'get',
 })
 const focus = ref(false)
@@ -52,12 +53,44 @@ async function send() {
       _id: '',
     })
 
-    const returnValues = await $fetch<UpdateResponse>(`/api/m/chats/${route.params.id}`, {
+    let returnValues: UpdateResponse = {
+      response: '',
+      originalChat: {
+        messages: [],
+      },
+    }
+
+    showingMessages.push(
+      {
+        sender: 'llm',
+        content: '',
+        journalId: [],
+        timestamp: new Date().getTime(),
+        _id: '',
+      },
+    )
+
+    await fetchEventSource(`/api/m/chats/${route.params.id}`, {
       method: 'put',
-      body: {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         message: text,
+      }),
+      onmessage(ev) {
+        if (showingMessages[showingMessages.length - 1]) {
+          (showingMessages[showingMessages.length - 1] as ChatInfo).content += JSON.parse(ev.data).chunk
+        }
+        if (ev.event === 'end') {
+          returnValues = JSON.parse(ev.data)
+        }
+      },
+      onclose() {
+      },
+      onerror(e) {
+        console.error(e)
       },
     })
+
     canSend.value = true
 
     // 处理数组
@@ -103,7 +136,7 @@ definePageMeta({
             {{ message.content }}
           </div>
         </div>
-        <Skeleton v-if="!canSend" class="w-full h-14" />
+        <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
