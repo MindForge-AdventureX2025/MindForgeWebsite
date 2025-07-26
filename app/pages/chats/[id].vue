@@ -188,12 +188,9 @@ function getMarkdown(originalValue: string) {
           />
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
-            <Badge variant="outline">
-              Agent Enable
-            </Badge>
-            <Badge variant="secondary">
-              Agent Enable
-            </Badge>
+
+            <FkJournalButton />
+
             <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
