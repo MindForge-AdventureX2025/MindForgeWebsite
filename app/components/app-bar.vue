@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import whyUs from '~/lib/whyUs';
-
+import whyUs from '~/lib/whyUs'
 </script>
 
 <template>
   <div class="w-full h-14 flex items-center justify-between px-5">
-   <AppIcon />
+    <AppIcon />
     <div>
       <!-- Navigation Group -->
       <NavigationMenu>

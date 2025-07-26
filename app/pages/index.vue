@@ -84,9 +84,9 @@ if (isLoaded.value && isSignedIn.value) {
       </Card>
     </div>
 
-    <div class="px-5 flex flex-col gap-10">
+    <div class="flex flex-col gap-10">
       <!-- Why us -->
-      <h1 class="text-3xl font-bold">
+      <h1 class="px-5 text-3xl font-bold">
         Why us?
       </h1>
 
@@ -114,9 +114,9 @@ if (isLoaded.value && isSignedIn.value) {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Safe Password Storage</TableCell>
+            <TableCell>Safe Accounts</TableCell>
             <TableCell class="font-bold ">
-              ✅ Use One of Best Account System
+              ✅ <span class="hidden md:inline">Use One of Best Account System</span>
             </TableCell>
             <TableCell>✅</TableCell>
             <TableCell>✅</TableCell>
@@ -126,23 +126,23 @@ if (isLoaded.value && isSignedIn.value) {
               Keep Journals
             </TableCell>
             <TableCell class="font-bold ">
-              ✅ Smart Markdown Journals
+              ✅ <span class="hidden md:inline">Smart Markdown Journals</span>
             </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Special Data Storage</TableCell>
+            <TableCell>Special Storage</TableCell>
             <TableCell class="font-bold ">
-              ✅ Save Your Journals & Chats
+              ✅ <span class="hidden md:inline">Save Your Journals & Chats</span>
             </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>All Agent Public</TableCell>
+            <TableCell>Public Agent</TableCell>
             <TableCell class="font-bold ">
-              ✅ Users know what they do
+              ✅ <span class="hidden md:inline">Users know what they do</span>
             </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
