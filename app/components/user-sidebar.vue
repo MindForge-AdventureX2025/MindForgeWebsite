@@ -204,7 +204,7 @@ const breakpoints = useBreakpoints({
   lg: 1024,
   xl: 1280,
 })
-const isMobile = breakpoints.smaller('sm')
+const isMobile = breakpoints.smaller('md')
 
 function changeOpen() {
   setOpen(!open.value)
