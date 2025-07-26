@@ -12,6 +12,7 @@ const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params
 const focus = ref(false)
 const textValue = ref<string>('')
 const canSend = ref(true)
+const colorMode = useColorMode()
 const showingMessages = reactive<ChatInfo[]>([])
 
 watch(data, (newValue) => {
@@ -128,6 +129,7 @@ definePageMeta({
 })
 
 function getMarkdown(originalValue: string) {
+  originalValue += ' \n \n> 你好 你是人吗 \n \n # 你好你好'
   const md = mdi()
   md.renderer.rules.hashtag = (tokens: any[], idx: number) => {
     const tag = tokens[idx].content.replace('#', '')
@@ -182,7 +184,7 @@ function getMarkdown(originalValue: string) {
             {{ message.content }}
           </div>
 
-          <div v-else class="px-2 leading-7 markdown" v-html="getMarkdown(message.content)" />
+          <div v-else :class="`px-2 leading-7 ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="getMarkdown(message.content)" />
           <!-- <div v-else class="px-2 leading-7">
             {{ message.content }}
           </div> -->

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  css: ['~/assets/css/main.css', 'github-markdown-css/github-markdown.css', '~/assets/css/github-markdown-light.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/github-markdown-dark.css', '~/assets/css/github-markdown-light.css'],
   app: {
     head: {
       title: 'MindForge',
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
       { code: 'bm', language: 'bm-BM', name: 'Burmese', file: 'bm.json' },
       { code: 'ta', language: 'ta-TL', name: 'Thai', file: 'ta.json' },
 
-            { code: 'wtf', language: 'wtf-Ether', name: '???', file: 'wtf.json' },
+      { code: 'wtf', language: 'wtf-Ether', name: '???', file: 'wtf.json' },
     ],
     defaultLocale: 'en',
   },
