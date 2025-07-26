@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 const colorMode = useColorMode()
+
+const { locales, setLocale } = useI18n()
 </script>
 
 <template>
@@ -21,6 +23,13 @@ const colorMode = useColorMode()
           </DropdownMenuItem>
           <DropdownMenuItem @click="colorMode.preference = 'dark'">
             Dark
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{{ $t("test") }}</DropdownMenuLabel>
+          <DropdownMenuItem v-for="(item, index) of locales" :key="item + index.toString()" @click="setLocale(item.code)">
+            {{ item.name }}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
