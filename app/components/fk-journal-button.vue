@@ -64,7 +64,7 @@ function submit() {
           </SelectContent>
         </Select>
 
-        <textarea :value="textValue" class="resize-none h-40" placeholder="Keep the sentence you want to update there" />
+        <textarea v-model="textValue" class="resize-none h-40" placeholder="Keep the sentence you want to update there" />
         <DialogFooter>
           <DialogClose class="flex gap-2">
             <Button variant="secondary">
