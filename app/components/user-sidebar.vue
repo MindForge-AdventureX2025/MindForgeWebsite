@@ -187,7 +187,7 @@ async function create() {
       if (data && data._id) {
         // 成功创建了新的聊天
         await refreshChat()
-        await navigateTo(`/chats/${data._id}`, {
+        await navigateTo(`/diaries/${data._id}`, {
           replace: true,
         })
       }

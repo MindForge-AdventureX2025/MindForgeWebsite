@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { RenderingItem } from '~/types/sidebarRendering'
+import { useEventBus } from '@vueuse/core'
 
 const props = defineProps<{
   title: string
@@ -7,6 +8,7 @@ const props = defineProps<{
 }>()
 const dialogType = ref<'rename' | 'delete'>('rename')
 const newName = ref<string>('')
+const route = useRoute()
 
 function setDialogType(type: 'rename' | 'delete') {
   dialogType.value = type
@@ -14,6 +16,7 @@ function setDialogType(type: 'rename' | 'delete') {
 
 async function deleteChat(index: number) {
   // 乐观更新
+  // 如果给自己删了 则需要格外注意
   const item = props.data[index]
   if (item && item.delete) {
     // eslint-disable-next-line vue/no-mutating-props
@@ -22,6 +25,11 @@ async function deleteChat(index: number) {
     await $fetch(item.delete, {
       method: 'delete',
     })
+
+    if (route.fullPath.includes(item._id || '🪷%^&*&^%$%^`\\')) {
+      // 如果删了自己 去home
+      await navigateTo('/home')
+    }
   }
 }
 

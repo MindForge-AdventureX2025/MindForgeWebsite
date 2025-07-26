@@ -3,6 +3,8 @@ export interface Chat {
   messages: {
     _doc: ChatInfo
   }[]
+  _id: string
+
 }
 
 export interface ChatInfo {
