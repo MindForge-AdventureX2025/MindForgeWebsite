@@ -38,6 +38,13 @@ const updateTitle = useDebounceFn(async () => {
     body: { name: showingData.title },
   })
 }, 1000)
+
+const updateContent = useDebounceFn(async () => {
+  await $fetch(`/api/m/journals/${showingData.id}`, {
+    method: 'put',
+    body: { content: showingData.content },
+  })
+}, 1500)
 </script>
 
 <template>
@@ -45,8 +52,7 @@ const updateTitle = useDebounceFn(async () => {
     <!-- eslint-disable-next-line vue/no-lone-template -->
     <template v-if="status === 'success' && data ">
       <input v-model="showingData.title" class="duration-150 w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
-      <DiaryEditor />
-      <!-- <MDC value="# Hi There" class="w-full h-full overflow-auto " /> -->
+      <DiaryEditor v-model="showingData.content" @input="updateContent" />
     </template>
 
     <div v-else class="flex-col flex-[1] flex gap-8">
