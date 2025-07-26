@@ -46,6 +46,7 @@ const updateTitle = useDebounceFn(async () => {
     <template v-if="status === 'success' && data ">
       <input v-model="showingData.title" class="duration-150 w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
       <DiaryEditor />
+      <!-- <MDC value="# Hi There" class="w-full h-full overflow-auto " /> -->
     </template>
 
     <div v-else class="flex-col flex-[1] flex gap-8">

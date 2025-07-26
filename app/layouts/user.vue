@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <SidebarProvider>
+  <SidebarProvider class="relative overflow-clip">
     <UserSidebar />
     <div class="w-full flex flex-col">
       <UserAppBar />
