@@ -17,10 +17,10 @@ function handleInput(event: Event) {
 <template>
   <div class="flex flex-col md:flex-row relative box-border py-5" :style="{ height }">
     <!-- 电脑端应用 -->
-    <div class="flex-1 p-2 font-mono border-[1px] md:rounded-l-lg rounded-t-lg">
+    <div class="flex-1 p-2 font-mono border-[1px] md:rounded-l-lg md:rounded-r-none rounded-t-lg">
       <textarea v-model="model" class="w-full h-full overflow-auto outline-none resize-none" placeholder="You can say something there..." @input="handleInput" />
     </div>
-    <div class="markdown-body flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-r-lg overflow-auto" v-html="html" />
+    <div class="markdown-body flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-l-none md:rounded-r-lg overflow-auto" v-html="html" />
   </div>
 </template>
 
