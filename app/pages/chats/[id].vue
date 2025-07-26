@@ -132,7 +132,7 @@ definePageMeta({
             {{ message.content }}
           </div>
 
-          <div v-else class="px-2">
+          <div v-else class="px-2 leading-7">
             {{ message.content }}
           </div>
         </div>
