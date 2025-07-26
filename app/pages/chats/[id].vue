@@ -4,6 +4,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 import mdi from 'markdown-it'
 import { toast } from 'vue-sonner'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
+import { formatXmlTags, registerError, registerHashTag, registerStart, registerThinking } from '~/lib/markdown'
 
 const route = useRoute()
 const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
@@ -12,7 +13,20 @@ const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params
 const focus = ref(false)
 const textValue = ref<string>('')
 const canSend = ref(true)
+const colorMode = useColorMode()
 const showingMessages = reactive<ChatInfo[]>([])
+const journal = reactive<{
+  journalIds: string[]
+  selected: string
+}>({
+  journalIds: [],
+  selected: '',
+})
+
+function journalUpdater(payload: { id: string, text: string }) {
+  journal.journalIds = [payload.id]
+  journal.selected = payload.text
+}
 
 watch(data, (newValue) => {
   showingMessages.length = 0
@@ -76,12 +90,22 @@ async function send() {
       },
     )
 
+    const journalData = { ...journal }
+
+    journal.journalIds = []
+    journal.selected = ''
     await fetchEventSource(`/api/m/chats/${route.params.id}`, {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-      }),
+      body: journalData.journalIds && journalData.selected
+        ? JSON.stringify({
+            // 这里是选过的
+            message: text,
+            ...journalData,
+          })
+        : JSON.stringify({
+            message: text,
+          }),
       onmessage(ev) {
         if (ev.event === 'end') {
           returnValues = JSON.parse(ev.data)
@@ -128,36 +152,17 @@ definePageMeta({
 })
 
 function getMarkdown(originalValue: string) {
+  originalValue += '<start>test-1</start>a<thinking>test0</thinking>a<error>test1</error> #aaa '
+
+  const formatted = formatXmlTags(originalValue, ['start', 'thinking', 'error'])
   const md = mdi()
-  md.renderer.rules.hashtag = (tokens: any[], idx: number) => {
-    const tag = tokens[idx].content.replace('#', '')
-    return `<span class="badgeTags">
-              ${tag}
-            </span>`
-  }
 
-  md.inline.ruler.after('link', 'hashtag', (state, silent) => {
-    // 匹配 # 开头的标签（非标题）
+  registerStart(md)
+  registerHashTag(md)
+  registerThinking(md)
+  registerError(md)
 
-    // eslint-disable-next-line unicorn/escape-case, regexp/no-unused-capturing-group, regexp/prefer-w, regexp/use-ignore-case
-    const pattern = /^#([a-zA-Z0-9_\-\u4e00-\u9fa5]+)/
-    const match = pattern.exec(state.src.slice(state.pos))
-
-    if (!match)
-      return false
-    if (silent)
-      return true
-
-    // 创建自定义 token
-    const token = state.push('hashtag', '', 0)
-    token.content = match[0] // 保存原始文本如 "#some-thing"
-    token.markup = '#'
-
-    // 移动解析位置
-    state.pos += match[0].length
-    return true
-  })
-  return md.render(originalValue)
+  return md.render(formatted)
 }
 </script>
 
@@ -169,7 +174,7 @@ function getMarkdown(originalValue: string) {
         class="flex flex-col items-center justify-center flex-[1]"
       >
         <h3 class="text-stone-400 text-4xl">
-          How can I help you today?
+          How's it going?
         </h3>
       </div>
 
@@ -177,17 +182,19 @@ function getMarkdown(originalValue: string) {
         v-else
         class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
       >
-        <div v-for="(message, index) of showingMessages" :key="index + message.timestamp.toString()">
-          <div v-if="message.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
-            {{ message.content }}
-          </div>
+        <ClientOnly>
+          <div v-for="(message, index) of showingMessages" :key="index + message.timestamp.toString()">
+            <div v-if="message.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
+              {{ message.content }}
+            </div>
 
-          <div v-else class="px-2 leading-7 markdown" v-html="getMarkdown(message.content)" />
+            <div v-else :class="`px-2 leading-7 ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="getMarkdown(message.content)" />
           <!-- <div v-else class="px-2 leading-7">
             {{ message.content }}
           </div> -->
-        </div>
-        <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
+          </div>
+          <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
+        </ClientOnly>
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
@@ -206,9 +213,14 @@ function getMarkdown(originalValue: string) {
           />
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
-            <Badge variant="outline">
-              Agent Enable
-            </Badge>
+
+            <div class="flex items-center">
+              <FkJournalButton :disabled="!!(journal.journalIds && journal.selected)" @submit="journalUpdater" />
+              <Badge v-if="!!(journal.journalIds && journal.selected)">
+                Journal Added
+              </Badge>
+            </div>
+
             <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
