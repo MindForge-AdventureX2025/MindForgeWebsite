@@ -2,8 +2,9 @@
 
 <template>
   <div class="w-full h-14 border-b-2 flex items-center justify-between px-5">
-    <div>
-      <h3 class="text-3xl font-bold font-mono">
+    <div class="flex items-center gap-2">
+      <img src="/logo.png" class="w-9 h-9">
+      <h3 class="text-2xl font-bold font-serif">
         MindForge
       </h3>
     </div>
