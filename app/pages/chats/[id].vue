@@ -21,6 +21,10 @@ watch(data, (newValue) => {
       return e._doc
     }))
   }
+  else if (status.value === 'error') {
+    // eslint-disable-next-line no-throw-literal
+    throw { statusCode: 404, message: 'Page Not Found' }
+  }
 }, {
   immediate: true,
 })

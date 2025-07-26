@@ -26,6 +26,10 @@ watch(data, (newValue) => {
     showingData.title = newValue.title
     showingData.id = newValue._id
   }
+  else if (status.value === 'error') {
+    // eslint-disable-next-line no-throw-literal
+    throw { statusCode: 404, message: 'Page Not Found' }
+  }
 }, {
   immediate: true,
 })

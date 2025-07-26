@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { RenderingItem } from '~/types/sidebarRendering'
-import { useEventBus } from '@vueuse/core'
 
 const props = defineProps<{
   title: string
