@@ -54,7 +54,7 @@ export function registerStart(md: MarkdownIt) {
 
   md.renderer.rules.start_tag = (tokens: any[], idx: number) => {
     const content = tokens[idx].content
-    return `<div class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90" variant="secondary">${content}</div>`
+    return `<span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90" variant="secondary">${content}</span>`
   }
 }
 
@@ -85,6 +85,33 @@ export function registerThinking(md: MarkdownIt) {
   }
 }
 
+export function registerComplete(md: MarkdownIt) {
+  md.inline.ruler.after('link', 'complete_tag', (state, silent) => {
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    const pattern = /^<complete>\s*([\s\S]*?)\s*<\/complete>/
+    const match = pattern.exec(state.src.slice(state.pos))
+
+    if (!match)
+      return false
+    if (silent)
+      return true
+
+    // 创建自定义 token
+    const token = state.push('complete_tag', '', 0)
+    token.content = match[1] ? match[1] : ''
+    token.markup = '<complete>'
+
+    // 移动解析位置
+    state.pos += match[0].length
+    return true
+  })
+
+  md.renderer.rules.complete_tag = (tokens: any[], idx: number) => {
+    const content = tokens[idx].content
+    return `<span class='inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground'>${content}</span>`
+  }
+}
+
 export function registerError(md: MarkdownIt) {
   md.inline.ruler.after('link', 'error_tag', (state, silent) => {
     // eslint-disable-next-line regexp/no-super-linear-backtracking
@@ -108,7 +135,7 @@ export function registerError(md: MarkdownIt) {
 
   md.renderer.rules.error_tag = (tokens: any[], idx: number) => {
     const content = tokens[idx].content
-    return `<div class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-destructive text-white [a&amp;]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60" variant="destructive">${content}</div>`
+    return `<span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-destructive text-white [a&amp;]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60" variant="destructive">${content}</span>`
   }
 }
 
