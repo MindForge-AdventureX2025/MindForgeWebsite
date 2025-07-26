@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  css: ['~/assets/css/main.css', 'github-markdown-css/github-markdown.css'],
+  css: ['~/assets/css/main.css', 'github-markdown-css/github-markdown.css', '~/assets/css/github-markdown-light.css'],
   app: {
     head: {
       title: 'MindForge',

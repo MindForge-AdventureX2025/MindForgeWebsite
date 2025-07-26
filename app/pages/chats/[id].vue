@@ -2,6 +2,7 @@
 import type { Chat, ChatInfo, UpdateResponse } from '~/types/chat'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import mdi from 'markdown-it'
+import { toast } from 'vue-sonner'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 
 const route = useRoute()
@@ -89,6 +90,11 @@ async function send() {
         }
         else {
           console.warn(`UnExpectData: ${ev.data}`)
+        }
+        if ('agent' in JSON.parse(ev.data)) {
+          toast(JSON.parse(ev.data).agent, {
+            description: ev.data,
+          })
         }
       },
       onclose() {
@@ -196,10 +202,9 @@ function getMarkdown(originalValue: string) {
           />
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
-            <Button size="icon" variant="outline" class="!w-8 !h-8">
-              <!-- 加号按钮 -->
-              <Icon name="ic:round-plus" class="text-lg" />
-            </Button>
+            <Badge variant="outline">
+              Agent Enable
+            </Badge>
             <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
               <Icon name="ri:send-plane-2-line" class="text-lg" />
             </Button>
