@@ -361,9 +361,15 @@ bus.on((_event, payload) => {
         </Tabs>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton class="flex items-center cursor-pointer" @click="create">
-          <Icon name="material-symbols:add" class="text-xl" />
+        <SidebarMenuButton class="flex items-center cursor-pointer justify-between" @click="create">
           <span v-if="open">New {{ tabs.charAt(0).toUpperCase() + tabs.slice(1) }}</span>
+          <Icon name="material-symbols:add" class="text-xl" />
+        </SidebarMenuButton>
+        <SidebarMenuButton class="flex items-center cursor-pointer justify-between" as-child>
+          <NuxtLink to="/mindfulness">
+            <span v-if="open">Mindfulness</span>
+            <Icon name="material-symbols:mindfulness" class="text-xl" />
+          </NuxtLink>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
