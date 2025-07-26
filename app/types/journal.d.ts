@@ -14,4 +14,5 @@ interface Journal {
 interface ShowingJournal {
   title: string
   content: string
+  id: string
 }
