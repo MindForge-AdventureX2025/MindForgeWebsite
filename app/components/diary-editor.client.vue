@@ -12,15 +12,16 @@ const html = computed(() => md.render(model.value || '*Your diary will appear he
 function handleInput(event: Event) {
   emit('input', event)
 }
+
+const colorMode = useColorMode()
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row relative box-border py-5" :style="{ height }">
-    <!-- 电脑端应用 -->
     <div class="flex-1 p-2 font-mono border-[1px] md:rounded-l-lg md:rounded-r-none rounded-t-lg">
       <textarea v-model="model" class="w-full h-full overflow-auto outline-none resize-none" placeholder="You can say something there..." @input="handleInput" />
     </div>
-    <div class="markdown-body flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-l-none md:rounded-r-lg overflow-auto" v-html="html" />
+    <div :class="`flex-1 p-2 border-[1px] border-l-0 rounded-b-lg md:rounded-l-none md:rounded-r-lg overflow-auto ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="html" />
   </div>
 </template>
 
