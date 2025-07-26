@@ -39,17 +39,17 @@ if (isLoaded.value && isSignedIn.value) {
             <span style="color: rgb(232, 98, 63)">e</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-3xl">Your Digital Twin.</span>
-            <span class="text-3xl">Make AdventureX Great Again.</span>
+            <span class="text-3xl">{{ $t('twins') }}</span>
+            <span class="text-3xl">{{ $t('maga') }}</span>
           </div>
           <div class="flex gap-2">
             <SignInButton as-child>
               <Button class="cursor-pointer mt-1">
-                Getting Started
+                {{ $t('start') }}
               </Button>
             </SignInButton>
             <Button class="mt-1" variant="secondary" @click="whyUs">
-              Why Us
+              {{ $t("whyUs") }}
             </Button>
           </div>
         </BlurReveal>
@@ -65,20 +65,20 @@ if (isLoaded.value && isSignedIn.value) {
       <Card class="flex-1 flex flex-col items-center justify-center">
         <CardContent class="px-10 !pb-0">
           <div class="text-xl font-bold">
-            What is MindForge? 🤔
+            {{ $t('card1Title') }}
           </div>
           <div class="text-sm text-zinc-500">
-            Your evolving digital twin. Beyond data, it gets your emotions, keeps your thoughts, and grows with you. More than a journal—it's your reflective journey.
+            {{ $t('card1Desc') }}
           </div>
         </CardContent>
       </Card>
       <Card class="flex-1 flex flex-col items-center justify-center">
         <CardContent class="px-10 !pb-0">
           <div class="text-xl font-bold">
-            How Does It Grow With You? 🌱
+            {{ $t('card2Title') }}
           </div>
           <div class="text-sm text-zinc-500">
-            Multi-agent AI listens & learns. MindForge becomes your emotional mirror: noticing patterns, supporting struggles, reflecting your path
+            {{ $t('card2Desc') }}
           </div>
         </CardContent>
       </Card>
@@ -87,12 +87,12 @@ if (isLoaded.value && isSignedIn.value) {
     <div class="flex flex-col gap-10">
       <!-- Why us -->
       <h1 class="px-5 text-3xl font-bold">
-        Why us?
+        {{ $t('whyUs') }}?
       </h1>
 
       <Table>
         <TableCaption>
-          Our special points vs
+          ${{ $t("comparing") }}
           <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://secondme.io/">
             <span>Second Me</span>
           </NuxtLink> & <NuxtLink class="border-b-[1px] border-accent-foreground" to="https://me.bot/">
@@ -103,7 +103,7 @@ if (isLoaded.value && isSignedIn.value) {
         <TableHeader>
           <TableRow>
             <TableHead>
-              Things
+              {{ $t("item") }}
             </TableHead>
             <TableHead class="font-black text-base">
               MindForge
@@ -114,35 +114,35 @@ if (isLoaded.value && isSignedIn.value) {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Safe Accounts</TableCell>
+            <TableCell>{{ $t("safe") }}</TableCell>
             <TableCell class="font-bold ">
-              ✅ <span class="hidden md:inline">Use One of Best Account System</span>
+              ✅ <span class="hidden md:inline">{{ $t("goodSafe") }}</span>
             </TableCell>
             <TableCell>✅</TableCell>
             <TableCell>✅</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              Keep Journals
+              {{ $t("journalsGreat") }}
             </TableCell>
             <TableCell class="font-bold ">
-              ✅ <span class="hidden md:inline">Smart Markdown Journals</span>
-            </TableCell>
-            <TableCell>❌</TableCell>
-            <TableCell>❌</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Special Storage</TableCell>
-            <TableCell class="font-bold ">
-              ✅ <span class="hidden md:inline">Save Your Journals & Chats</span>
+              ✅ <span class="hidden md:inline">{{ $t('goodJournalsGreat') }}</span>
             </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Public Agent</TableCell>
+            <TableCell>{{ $t("storage") }}</TableCell>
             <TableCell class="font-bold ">
-              ✅ <span class="hidden md:inline">Users know what they do</span>
+              ✅ <span class="hidden md:inline">{{ $t("goodStorage") }}</span>
+            </TableCell>
+            <TableCell>❌</TableCell>
+            <TableCell>❌</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>{{ $t("agent") }}</TableCell>
+            <TableCell class="font-bold ">
+              ✅ <span class="hidden md:inline">{{ $t("goodAgent") }}</span>
             </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>

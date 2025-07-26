@@ -11,7 +11,7 @@ import whyUs from '~/lib/whyUs'
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink @click="whyUs">
-              Why Us
+              {{ $t("whyUs") }}
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
