@@ -152,8 +152,6 @@ definePageMeta({
 })
 
 function getMarkdown(originalValue: string) {
-  originalValue += '<start>test-1</start>a<thinking>test0</thinking>a<error>test1</error> #aaa '
-
   const formatted = formatXmlTags(originalValue, ['start', 'thinking', 'error'])
   const md = mdi()
 
