@@ -42,8 +42,10 @@ export default defineNuxtConfig({
       { code: 'mg', language: 'mg-MG', name: 'Монгол', file: 'mg.json' },
       { code: 'bm', language: 'bm-BM', name: 'Burmese', file: 'bm.json' },
       { code: 'ta', language: 'ta-TL', name: 'Thai', file: 'ta.json' },
+      { code: 'fr', language: 'fr-FR', name: 'French', file: 'ta.json' },
+      { code: 'sp', language: 'fr-SP', name: 'Spain', file: 'sp.json' },
 
-      { code: 'wtf', language: 'wtf-Ether', name: '???', file: 'wtf.json' },
+      { code: 'wtf', language: 'wtf-Ether', name: '💩', file: 'wtf.json' },
     ],
     defaultLocale: 'en',
   },

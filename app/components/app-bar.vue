@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import whyUs from '~/lib/whyUs'
+
+const { setLocale } = useI18n()
 </script>
 
 <template>
@@ -14,10 +16,8 @@ import whyUs from '~/lib/whyUs'
               {{ $t("whyUs") }}
             </NavigationMenuLink>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink href="/docs/">
-              Special Points
-            </NavigationMenuLink>
+          <NavigationMenuItem @click="setLocale('wtf')">
+            Special Points
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
