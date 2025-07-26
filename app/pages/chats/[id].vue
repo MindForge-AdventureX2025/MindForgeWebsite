@@ -4,7 +4,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 import mdi from 'markdown-it'
 import { toast } from 'vue-sonner'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
-import { registerHashTag, registerStart } from '~/lib/markdown'
+import { formatXmlTags, registerError, registerHashTag, registerStart, registerThinking } from '~/lib/markdown'
 
 const route = useRoute()
 const { data, refresh: _, status } = useFetch<Chat>(`/api/m/chats/${route.params.id}`, {
@@ -130,13 +130,14 @@ definePageMeta({
 })
 
 function getMarkdown(originalValue: string) {
+  originalValue += '<start>test-1</start>a<thinking>test0</thinking>a<error>test1</error> #aaa '
+
+  const formatted = formatXmlTags(originalValue, ['start', 'thinking', 'error'])
   const md = mdi()
-  originalValue += '\n\n <start>你好吗 我好</start> \n\n #测试'
 
   registerHashTag(md)
-  registerStart(md)
 
-  return md.render(originalValue)
+  return md.render(formatted)
 }
 </script>
 
@@ -156,17 +157,19 @@ function getMarkdown(originalValue: string) {
         v-else
         class="flex flex-col gap-2 overflow-auto box-border sm:p-10 p-3"
       >
-        <div v-for="(message, index) of showingMessages" :key="index + message.timestamp.toString()">
-          <div v-if="message.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
-            {{ message.content }}
-          </div>
+        <ClientOnly>
+          <div v-for="(message, index) of showingMessages" :key="index + message.timestamp.toString()">
+            <div v-if="message.sender === 'user'" class="p-3 rounded-xl bg-sidebar-accent w-fit">
+              {{ message.content }}
+            </div>
 
-          <div v-else :class="`px-2 leading-7 ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="getMarkdown(message.content)" />
+            <div v-else :class="`px-2 leading-7 ${colorMode.value === 'dark' ? 'markdown-body' : 'markdown-body-light'}`" v-html="getMarkdown(message.content)" />
           <!-- <div v-else class="px-2 leading-7">
             {{ message.content }}
           </div> -->
-        </div>
-        <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
+          </div>
+          <Skeleton v-if="!canSend && showingMessages[showingMessages.length - 1]?.sender === 'llm' && showingMessages[showingMessages.length - 1]?.content.length === 0" class="w-full h-14" />
+        </ClientOnly>
       </client-backend-provider>
       <div class="h-42 p-5 px-8">
         <div
@@ -186,6 +189,9 @@ function getMarkdown(originalValue: string) {
           <div class="flex items-center justify-between">
             <!-- <div class="flex items-center justify-end gap-1"> -->
             <Badge variant="outline">
+              Agent Enable
+            </Badge>
+            <Badge variant="secondary">
               Agent Enable
             </Badge>
             <Button size="icon" class="!w-[30px] !h-[30px]" :disabled="!canSend || textValue.length <= 0" @click="send">
