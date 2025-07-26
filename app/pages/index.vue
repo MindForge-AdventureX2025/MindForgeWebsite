@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import whyUs from '~/lib/whyUs'
+
 const isDark = computed(() => useColorMode().value === 'dark')
 
 const { isLoaded, isSignedIn } = useAuth()
@@ -46,10 +48,8 @@ if (isLoaded.value && isSignedIn.value) {
                 Getting Started
               </Button>
             </SignInButton>
-            <Button class="mt-1" variant="secondary" as-child>
-              <NuxtLink href="/">
-                Why us
-              </NuxtLink>
+            <Button class="mt-1" variant="secondary" @click="whyUs">
+              Why Us
             </Button>
           </div>
         </BlurReveal>
@@ -113,9 +113,11 @@ if (isLoaded.value && isSignedIn.value) {
           </TableRow>
         </TableHeader>
         <TableBody>
-           <TableRow>
+          <TableRow>
             <TableCell>Safe Password Storage</TableCell>
-            <TableCell class="font-bold " >✅ Use One of Best Account System</TableCell>
+            <TableCell class="font-bold ">
+              ✅ Use One of Best Account System
+            </TableCell>
             <TableCell>✅</TableCell>
             <TableCell>✅</TableCell>
           </TableRow>
@@ -123,25 +125,32 @@ if (isLoaded.value && isSignedIn.value) {
             <TableCell>
               Keep Journals
             </TableCell>
-            <TableCell class="font-bold " >✅ Smart Markdown Journals</TableCell>
+            <TableCell class="font-bold ">
+              ✅ Smart Markdown Journals
+            </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Special Data Storage</TableCell>
-            <TableCell class="font-bold " >✅ Save Your Journals & Chats</TableCell>
+            <TableCell class="font-bold ">
+              ✅ Save Your Journals & Chats
+            </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>All Agent Public</TableCell>
-            <TableCell class="font-bold " >✅ Users know what they do</TableCell>
+            <TableCell class="font-bold ">
+              ✅ Users know what they do
+            </TableCell>
             <TableCell>❌</TableCell>
             <TableCell>❌</TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </div>
+    <AppFooter />
   </div>
 </template>
 
