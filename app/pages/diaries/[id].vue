@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, useEventBus } from '@vueuse/core'
 
 definePageMeta({
   middleware: ['user'],
@@ -8,6 +8,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const bus = useEventBus('optimizeRename')
 
 const { data, refresh: _, status } = useFetch<Journal>(`/api/m/journals/${route.params.id}`, {
   method: 'get',
@@ -30,6 +31,8 @@ watch(data, (newValue) => {
 })
 
 const updateTitle = useDebounceFn(async () => {
+  bus.emit('rename', { id: route.params.id, newName: showingData.title })
+
   await $fetch(`/api/m/journals/rename/${showingData.id}`, {
     method: 'post',
     body: { name: showingData.title },
@@ -39,7 +42,7 @@ const updateTitle = useDebounceFn(async () => {
 
 <template>
   <div class="p-14">
-    <input v-model="showingData.title" class="w-full flex pb-0 border-b-[1px] border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
+    <input v-model="showingData.title" class="w-full flex pb-0 border-b-[1px] focus:border-accent-foreground outline-none mt-2 text-2xl font-bold" placeholder="Your title" @input="updateTitle">
   </div>
 </template>
 

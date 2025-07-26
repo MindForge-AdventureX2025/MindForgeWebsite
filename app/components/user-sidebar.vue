@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import type { ApiChatHistoryItem, ChatHistory } from '../types/chatHistory.d'
+import type { ApiChatHistoryItem, History } from '../types/chatHistory.d'
 import type { RenderingItem } from '~/types/sidebarRendering'
-import { useBreakpoints } from '@vueuse/core'
+import { useBreakpoints, useEventBus } from '@vueuse/core'
 import { useSidebar } from './ui/sidebar'
 import SidebarHeader from './ui/sidebar/SidebarHeader.vue'
 
 const { open, setOpen, openMobile, setOpenMobile } = useSidebar()
 const tabs = ref<'diary' | 'chat'>('diary')
-const chatHistory = reactive<ChatHistory>({
+const chatHistory = reactive<History>({
   today: [],
   yesterday: [],
   thisMonth: [],
   other: [],
 })
-const journalHistory = reactive<ChatHistory>({
+const journalHistory = reactive<History>({
   today: [],
   yesterday: [],
   thisMonth: [],
@@ -62,6 +62,7 @@ watch(
             rename: `/api/m/chats/rename/${originalData._id}`,
             // delete: `https://mindforgeserver.onrender.com/api/chats/delete/${originalData._id}`,
             delete: `/api/m/chats/delete/${originalData._id}`,
+            _id: originalData._id,
           }
         }
 
@@ -112,6 +113,7 @@ watch(
             name: originalData.title,
             rename: `/api/m/journals/rename/${originalData._id}`,
             delete: `/api/m/journals/delete/${originalData._id}`,
+            _id: originalData._id,
           }
         }
 
@@ -211,6 +213,32 @@ function changeOpen() {
 function changeOpenMobile() {
   setOpenMobile(!openMobile.value)
 }
+
+const bus = useEventBus('optimizeRename')
+bus.on((_event, payload) => {
+  if (payload) {
+    const { id, newName } = payload
+
+    const toArray = (e: History): RenderingItem[] => {
+      const v: RenderingItem[] = []
+
+      v.push(...e.today)
+      v.push(...e.yesterday)
+      v.push(...e.thisMonth)
+      v.push(...e.other)
+
+      return v
+    }
+
+    const e = toArray(chatHistory).find(e => e._id === id)
+    if (e)
+      e.name = newName
+
+    const j = toArray(journalHistory).find(j => j._id === id)
+    if (j)
+      j.name = newName
+  }
+})
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import type { RenderingItem } from './sidebarRendering'
 
-export interface ChatHistory {
+export interface History {
   today: RenderingItem[]
   yesterday: RenderingItem[]
   thisMonth: RenderingItem[]
